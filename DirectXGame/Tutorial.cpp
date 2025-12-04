@@ -3,11 +3,18 @@
 
 using namespace KamataEngine;
 
-void Tutorial::Initialize()
+void Tutorial::Initialize() 
 {
+	//チュートリアルのスプライト
+	textureHandle_ = TextureManager::Load("explanation.png");
+	tutorialSprite_ = Sprite::Create(textureHandle_, {0, 0});
+	
+	
+	
 	// 3Dモデルの生成
 	// model_ = Model::CreateFromOBJ("titleFont");
 	// modelPlayer_ = Model::CreateFromOBJ("player");
+	
 	// カメラの初期化
 	camera_.Initialize();
 	// ワールド変換の初期化
@@ -22,7 +29,7 @@ void Tutorial::Initialize()
 
 void Tutorial::Update()
 {
-	switch (phase_)
+	switch (phase_) 
 	{
 	case Phase::kMain:
 
@@ -34,12 +41,12 @@ void Tutorial::Update()
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
 			finished_ = true;
 		}
-		
+
 		break;
 	case Phase::kFadeIn:
 		// フェード
 		fade_->Update();
-		if (fade_->IsFinished()) 
+		if (fade_->IsFinished())
 		{
 			phase_ = Phase::kMain;
 		}
@@ -64,19 +71,27 @@ void Tutorial::Draw()
 	Model::PreDraw(dxCommon->GetCommandList());
 
 	// ここに3Dモデルインスタンスの描画処理を記述する
-	//model_->Draw(worldTransform_, camera_);
+	// model_->Draw(worldTransform_, camera_);
 	// modelPlayer_->Draw(worldTransformPlayer_, camera_);
 
 	// 3Dモデル描画後処理
 	Model::PostDraw();
+
+
+	Sprite::PreDraw(dxCommon->GetCommandList());
+
+	tutorialSprite_->Draw();
+
+
+	Sprite::PostDraw();
+
+
 	// フェード
 	fade_->Draw();
 }
 
 Tutorial::~Tutorial()
 {
-	// モデル
-	//delete model_;
-	//  フェード
 	delete fade_;
+	delete tutorialSprite_;
 }

@@ -1,33 +1,34 @@
-/**/
 #include"TitleScene.h"
 #include "Player.h"
 #include "MapChipField.h"
 
 using namespace KamataEngine;
 
-
 void TitleScene::Initialize()
 {
-	//3Dモデルの生成
-	model_ = Model::CreateFromOBJ("titleFont");
-	//modelPlayer_ = Model::CreateFromOBJ("player");
-	//カメラの初期化
+	//タイトルのスプライト
+	textureHandle_ = TextureManager::Load("title.png");
+	titleSprite_ = Sprite::Create(textureHandle_, {0, 0});
+
+
+
+	// 3Dモデルの生成
+	//model_ = Model::CreateFromOBJ("titleFont");
+	// modelPlayer_ = Model::CreateFromOBJ("player");
+	
+	// カメラの初期化
 	camera_.Initialize();
-	//ワールド変換の初期化
+	// ワールド変換の初期化
 	worldTransform_.Initialize();
 	worldTransformPlayer_.Initialize();
 
-
-
-
-	//フェード
+	// フェード
 	fade_ = new Fade();
 	fade_->Initialize();
 	fade_->Start(Fade::Status::FadeIn, 1.0f);
-
 }
 
-void TitleScene::Update()
+void TitleScene::Update() 
 {
 
 	switch (phase_)
@@ -37,12 +38,12 @@ void TitleScene::Update()
 		// タイトルシーンの終了条件
 		if (Input::GetInstance()->PushKey(DIK_SPACE))
 		{
-			//フェードアウト開始
+			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
 			finished_ = true;
 		}
-		if (Input::GetInstance()->PushKey(DIK_T))
+		if (Input::GetInstance()->PushKey(DIK_T)) 
 		{
 			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
@@ -51,7 +52,7 @@ void TitleScene::Update()
 		}
 		break;
 	case Phase::kFadeIn:
-		//フェード
+		// フェード
 		fade_->Update();
 		if (fade_->IsFinished())
 		{
@@ -67,8 +68,6 @@ void TitleScene::Update()
 		}
 		break;
 	}
-
-	
 }
 
 void TitleScene::Draw() 
@@ -79,22 +78,35 @@ void TitleScene::Draw()
 	// 3Dモデル描画前処理
 	Model::PreDraw(dxCommon->GetCommandList());
 
-	//ここに3Dモデルインスタンスの描画処理を記述する
-	model_->Draw(worldTransform_, camera_);
-	//modelPlayer_->Draw(worldTransformPlayer_, camera_);
+	// ここに3Dモデルインスタンスの描画処理を記述する
+	//model_->Draw(worldTransform_, camera_);
+	// modelPlayer_->Draw(worldTransformPlayer_, camera_);
+
 
 	// 3Dモデル描画後処理
 	Model::PostDraw();
+
+	Sprite::PreDraw(dxCommon->GetCommandList());
+
+
+	titleSprite_->Draw();
+
+
+	Sprite::PostDraw();
+
+
+
 	// フェード
 	fade_->Draw();
 }
 
 TitleScene::~TitleScene()
 {
-	//モデル 
-	delete model_;
-	//delete modelPlayer_;
-	// フェード
+	// モデル
+	//delete model_;
+	// delete modelPlayer_;
+	//  フェード
 	delete fade_;
-
+	//タイトルのスプライト
+	delete titleSprite_;
 }

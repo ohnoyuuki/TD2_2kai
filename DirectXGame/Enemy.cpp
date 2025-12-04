@@ -3,10 +3,10 @@
 #include"cassert"
 #include<numbers>
 #include<algorithm>
-
+#include<list>
 #define NOMINMAX
 #include "MapChipField.h"
-#include <algorithm>
+
 using namespace KamataEngine;
 using namespace MathUtility;
 
@@ -31,11 +31,25 @@ void Enemy::Initialize(Model* model, Camera* camera, KamataEngine::Vector3& posi
 	velocity_ = {-kWalkSpeed, 0, 0};
 
 	walkTimer_ = 0.0f;
-
+	enemyHp = 1000;
 
 	worldTransform_.rotation_.y = std::numbers::pi_v<float> / -2.0f;
 
 	worldTransform_.Initialize();
+
+
+	/////////////////////////////////////////
+	////敵左右移動追加////////////////////////
+	/////////////////////////////////////////
+	startX_ = position.x;
+
+	// 最初の「次の行動までの時間」を設定（2〜5秒）
+	nextActionTime_ = (rand() % 300) / 60.0f + 2.0f;
+	////////////////////////////////////////////
+	////敵左右移動追加終///////////////////////
+	/////////////////////////////////////////////
+
+
 }
 
 
@@ -43,7 +57,7 @@ void Enemy::Initialize(Model* model, Camera* camera, KamataEngine::Vector3& posi
 void Enemy::Update()
 {
 
-	/*
+	
 	// 1.移動入力
 	
 	
@@ -54,45 +68,134 @@ void Enemy::Update()
 	
 	// 2.移動量を加速して衝突判定する
 	// 衝突情報を初期化
-	CollisionMapInfo collisionMapInfo;
+	//CollisionMapInfo collisionMapInfo;
 	// 移動量に速度の値をコピー
-	collisionMapInfo.move = velocity_;
+	//collisionMapInfo.move = velocity_;
 	// マップ衝突チェック
-	CheckMapCollision(collisionMapInfo);
+	//CheckMapCollision(collisionMapInfo);
 	// 3.判定結果を反映して移動させる
-	CheckMapMove(collisionMapInfo);
+	//CheckMapMove(collisionMapInfo);
 	// 4.天井に接触している場合の処理
-	CheckMapCeiling(collisionMapInfo);
+	//CheckMapCeiling(collisionMapInfo);
 	// 5.壁に接触している場合の処理
-	CheckMapWall(collisionMapInfo);
+	//CheckMapWall(collisionMapInfo);
 	// 6.接地状態の切り替え
-	CheckMapLanding(collisionMapInfo);
+	//CheckMapLanding(collisionMapInfo);
 
 	// 7.旋回制御
-	AnimateTurn();
+	//AnimateTurn();
 
 	// アフィン変換行列
-	worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
-	worldTransform_.TransferMatrix(); // 敵の座標の計算
-    */
+	//worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
+	//worldTransform_.TransferMatrix(); // 敵の座標の計算
+    
 
 
-	worldTransform_.translation_ += velocity_;
+	//worldTransform_.translation_ += velocity_;
 
 
-	walkTimer_ += 5.0f / 60.0f;
+	//walkTimer_ += 5.0f / 60.0f;
 
-	worldTransform_.rotation_.x = sin(walkTimer_);
+	//worldTransform_.rotation_.x = sin(walkTimer_);
 	
+
+
+
+
+	// 時間のカウンター
+	walkTimer_ += 5.0f / 60.0f; // フレームごとの時間増分
+
+	// 上下に揺れるように移動
+	float amplitude = 20.0f; // 上下移動の幅（単位:座標）
+	float speed = 0.1f;      // 速さ
+
+	// Y方向にsinで移動
+	worldTransform_.translation_.y = sin(walkTimer_ * speed) * amplitude;
+
+	#pragma region 敵の移動
+
+	// X,Y をいじるので一旦変数に出す
+	Vector3& pos = worldTransform_.translation_;
+	Vector3& rot = worldTransform_.rotation_;
+
+	// 状態ごとに処理を分ける
+	switch (state_) 
+	{
+
+	// ───────────────────────────────
+	// ① 上下に揺れる状態
+	// ───────────────────────────────
+	case EnemyState::IdleMove:
+		pos.y = sin(walkTimer_ * 0.1f) * 10.0f;
+		rot.x = sin(walkTimer_);
+
+		// ランダム行動タイマー
+		actionTimer_ += 1.0f / 60.0f;
+
+		// ランダム時間経過したら左移動へ
+		if (actionTimer_ >= nextActionTime_)
+		{
+			state_ = EnemyState::MoveLeft;
+			actionTimer_ = 0;
+			// 次の発生時間を再設定
+			nextActionTime_ = (rand() % 300) / 60.0f + 2.0f;
+		}
+
+		break;
+
+	// ───────────────────────────────
+	// ② 左に移動
+	// ───────────────────────────────
+	case EnemyState::MoveLeft:
+		pos.x -= 0.2f; // 左へ移動速度
+
+		if (pos.x <= startX_ - 15.0f)
+		{ // 100だけ左に行ったら右へ戻る
+			state_ = EnemyState::MoveRight;
+		}
+		break;
+
+	// ───────────────────────────────
+	// ③ 右に戻る
+	// ───────────────────────────────
+	case EnemyState::MoveRight:
+		pos.x += 0.2f;
+
+		if (pos.x >= startX_)
+		{ // 初期位置まで戻ったら Idle へ
+			pos.x = startX_;
+			state_ = EnemyState::IdleMove;
+		}
+		break;
+	}
+
+
+
+	#pragma endregion
+
+	if (enemyHp < 0)
+	{
+		isenemyDead_ = true;
+	}
 	
-	
-	
+
+
+
+
+
 	// プレイヤーの座標の計算
 	worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 	worldTransform_.TransferMatrix(); 
 }
 
-void Enemy::Draw() { model_->Draw(worldTransform_, *camera_); }
+void Enemy::Draw() 
+{
+	if (isenemyDead_)
+	{
+		return;
+	}
+	model_->Draw(worldTransform_, *camera_); 
+}
 
 
 
@@ -127,6 +230,30 @@ void Enemy::OnCollition(const Player* player)
 {
 	(void)player;
 }
+
+#pragma region 自キャラの弾と敵
+
+AABB2 Enemy::GetAABB2()
+{
+	KamataEngine::Vector3 worldPos = GetWorldPosition();
+
+	AABB2 aabb;
+
+	aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeight / 2.0f, worldPos.z - kWidth / 2.0f};
+	aabb.max = {worldPos.x + kWidth / 2.0f, worldPos.y + kHeight / 2.0f, worldPos.z + kWidth / 2.0f};
+
+	return aabb;
+}
+
+// 衝突応答
+void Enemy::OnCollition2(const PlayerBullet* playerBullet)
+{
+	(void)playerBullet;
+	enemyHp -= 100;
+}
+
+
+#pragma endregion
 
 
 

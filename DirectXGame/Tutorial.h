@@ -1,8 +1,8 @@
 ﻿#pragma once
-#include "KamataEngine.h"
+#include"KamataEngine.h"
 #include "MapChipField.h"
 #include"Fade.h"
-class Tutorial
+class Tutorial 
 {
 public:
 	enum class Phase 
@@ -28,9 +28,8 @@ public:
 
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
-
 	// スプライト
-	KamataEngine::Sprite* sprite_ = nullptr;
+	KamataEngine::Sprite* tutorialSprite_ = nullptr;
 
 	// マップチップフィールド
 	MapChipField* mapChipField_;
@@ -39,7 +38,7 @@ private:
 	// 3Dモデルデータ
 	KamataEngine::Model* model_ = nullptr;
 	// モデルプレイヤー
-	//KamataEngine::Model* modelPlayer_ = nullptr;
+	// KamataEngine::Model* modelPlayer_ = nullptr;
 	// カメラ
 	KamataEngine::Camera camera_;
 	// ワールドトランスフォーム

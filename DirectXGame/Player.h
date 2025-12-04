@@ -1,20 +1,18 @@
 #pragma once
 #include "KamataEngine.h"
 #include"MyMath.h"
-
+#include"PlayerBullet.h"
+#include<list>
 
 class MapChipField;
 class Enemy;
-class Player 
+class Player
 {
 public:
-
-
-	//デスフラグ
+	// デスフラグ
 	bool isDead_ = false;
 	// デスフラグのgetter
 	bool IsDead() const { return isDead_; }
-
 
 	// キャラクターの当たり判定サイズ
 	static inline const float kWidth = 0.8f;
@@ -26,7 +24,7 @@ public:
 	void SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
 
 	// マップとの当たり判定情報
-	struct CollisionMapInfo 
+	struct CollisionMapInfo
 	{
 		bool ceiling = false;            // 天井衝突フラグ
 		bool langing = false;            // 着地フラグ
@@ -49,9 +47,8 @@ public:
 	void CheckMapLanding(const CollisionMapInfo& info);
 	// 着地フラグ
 
-	
 	// 角
-	enum Corner 
+	enum Corner
 	{
 		kRightBottom, // 右下
 		kLeftBottom,  // 左下
@@ -72,9 +69,9 @@ public:
 	static inline const float kLimitRunSpeed = 0.25f;
 
 	// 重力加速度(下方向)
-	static inline const float kGravityAcceleration = 0.0f;//0,1f
+	static inline const float kGravityAcceleration = 0.0f; // 0,1f
 	// 最大落下速度(下方向)
-	static inline const float kLimitFallSpeed = 0.0f;//0.5f
+	static inline const float kLimitFallSpeed = 0.0f; // 0.5f
 	// ジャンプ初速(上方向)
 	static inline const float kJumpAcceleration = 0.8f;
 	// 着地時の速度減衰率
@@ -85,7 +82,7 @@ public:
 	static inline const float kAttenuationWall = 0.9f;
 
 	// 左右
-	enum class LRDirection
+	enum class LRDirection 
 	{
 		kRight,
 		kLeft,
@@ -106,16 +103,20 @@ public:
 
 	const KamataEngine::Vector3& GetVelocity() const { return velocity_; }
 
-
-	 
-
-
-	//ワールド座標を取得
+	// ワールド座標を取得
 	KamataEngine::Vector3 GetWorldPosition();
-	//AABBを取得
+	
+	
+	
+	
+	
+	
+	// AABBを取得
 	AABB GetAABB();
-	//衝突応答
+	// 衝突応答
 	void OnCollition(const Enemy* enemy);
+
+
 
 
 
@@ -131,21 +132,33 @@ public:
 	// 描画
 	void Draw();
 
+    
 	static inline const float kBlank = 0.9f;
 
 	void AnimateTurn();
 
+	//弾
+	std::list<PlayerBullet*> bullets_;
+
+	//攻撃
+	void Attack();
+
+	~Player();
+
 private:
 	// ワールド変換データ
 	KamataEngine::WorldTransform worldTransform_;
-	
+
 	// カメラ
 	KamataEngine::Camera* camera_;
 	// テクスチャハンドル
 	// uint32_t textureHandle_ = 0u;
-	
+
 	// モデル
 	KamataEngine::Model* model_;
 
 	KamataEngine::Vector3 velocity_ = {};
+
+	
+
 };

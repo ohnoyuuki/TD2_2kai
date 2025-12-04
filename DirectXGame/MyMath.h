@@ -11,5 +11,12 @@ struct AABB
 	KamataEngine::Vector3 min;
 	KamataEngine::Vector3 max;
 };
-
 bool IsCollition(const AABB& aabb1, const AABB& aabb2);
+
+
+struct AABB2
+{
+	KamataEngine::Vector3 min;
+	KamataEngine::Vector3 max;
+};
+bool IsCollition2(const AABB2& aabb3, const AABB2& aabb4);

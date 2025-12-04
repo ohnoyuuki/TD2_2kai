@@ -1,13 +1,13 @@
 #include"DeathParticle.h"
 #include"KamataEngine.h"
 #include"Player.h"
+#include"Enemy.h"
 #include"GameScene.h"
 #include"cassert"
 #include<numbers>
 #include<algorithm>
 
 #define NOMINMAX
-#include<algorithm>
 #include"MapChipField.h"
 using namespace KamataEngine;
 using namespace MathUtility;
@@ -24,7 +24,6 @@ void DeathParticle::Initialize(Model* model, Camera* camera, KamataEngine::Vecto
 	{
 		worldTransform.translation_ = position;
 		worldTransform.rotation_.y = std::numbers::pi_v<float> / 2.0f;
-
 	}
 	
 
@@ -57,6 +56,9 @@ void DeathParticle::Update()
 
 	}
 	
+
+
+
 	for (uint32_t i = 0; i < 8; i++)
 	{
 		//基本となる速度ベクトル
