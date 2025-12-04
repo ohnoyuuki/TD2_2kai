@@ -1,7 +1,6 @@
 ﻿#include "Barrier.h"
 #include<algorithm>
 #include<numbers>
-
 #include "cassert"
 #define NOMINMAX
 #include "MapChipField.h"
@@ -25,16 +24,28 @@ void Barrier::Initialize(KamataEngine::Model* model, uint32_t textureHandle, Kam
 	textureHandle_ = textureHandle;
 
 	worldTransform_.Initialize();
+
+
+	BarrierHp = 1000;
+
 }
 
 
 void Barrier::Update()
 {
-	// プレイヤーの座標の計算
+	// 座標の計算
 	worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 	worldTransform_.TransferMatrix();
+
+
+
+
+
+	if (BarrierHp < 0) 
+	{
+		barrierDead_ = true;
+	}
 }
 
 void Barrier::Draw() { model_->Draw(worldTransform_, *camera_); }
-
 

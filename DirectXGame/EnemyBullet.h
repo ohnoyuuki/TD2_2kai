@@ -1,8 +1,9 @@
 ﻿#pragma once
 #include "KamataEngine.h"
 #include "MyMath.h"
+#include"PlayerBullet.h"
 
-class Barrier;
+class PlayerBullet;
 class EnemyBullet 
 {
 public:
@@ -33,12 +34,12 @@ public:
 	
 
 
-	#pragma region 敵弾とバリアの衝突
+	#pragma region プレイヤーの弾と敵の弾の衝突
 	
 	// AABBを取得
-	AABB GetAABB3();
+	AABB3 GetAABB3();
 	// 衝突応答
-	void OnCollition3(const Barrier* barrier);
+	void OnCollition3(const PlayerBullet* playerBullet);
 
 	#pragma endregion
 

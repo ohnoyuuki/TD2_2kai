@@ -17,7 +17,21 @@ public:
 
 
 	
+	// デスフラグ
+	bool barrierDead_ = false;
+	// デスフラグのgetter
+	bool BarrierDead() const { return barrierDead_; }
+	// バリアの当たり判定サイズ
+	static inline const float kWidth = 30.0f;
+	static inline const float kHeight = 720.0f;
+
+
+
 	
+
+
+	// 体力表示
+	int BarrierHp;
 
 
 

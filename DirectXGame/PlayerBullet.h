@@ -1,8 +1,10 @@
 ﻿#pragma once
 #include "KamataEngine.h"
 #include"MyMath.h"
+#include"EnemyBullet.h"
 
 class Enemy;
+class EnemyBullet;
 class PlayerBullet
 {
 public:
@@ -47,8 +49,16 @@ public:
 
 	#pragma endregion
 
+	#pragma region プレイヤーの弾と敵の弾の衝突
 
+	// AABBを取得
+	AABB3 GetAABB3();
+	// 衝突応答
+	void OnCollition3(const EnemyBullet* enemyBullet);
 
+    #pragma endregion
+
+	
 
 private:
 	// ワールド変換データ

@@ -3,7 +3,7 @@
 #include"TitleScene.h"
 #include"Tutorial.h"
 #include"GameScene.h"
-// #include"GameClear.h"
+#include"GameClear.h"
 #include"GameOver.h"
 
 
@@ -18,7 +18,7 @@ enum class Scene
 	kTitle,
 	kTutorial,
 	kGame,
-	// kClear
+	kClear,
 	kOver,
 };
 Scene scene = Scene::kUnknown;
@@ -37,7 +37,7 @@ Tutorial* tutorial = nullptr;
 GameScene* gameScene = nullptr;
 
 // ゲームクリアシーンの生成
-// GameClear* gameClear = nullptr;
+GameClear* gameClear = nullptr;
 
 // ゲームオーバーシーンの生成
 GameOver* gameOver = nullptr;
@@ -57,7 +57,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	scene = Scene::kTitle;
 	titleScene = new TitleScene;
 	tutorial = new Tutorial;
-	// gameClear = new GameClear;
+	gameClear = new GameClear;
 	gameOver = new GameOver;
 
 	// タイトルシーンの初期化
@@ -67,7 +67,6 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	tutorial->Initialize();
 
 	/*
-
 	//ゲームシーンの初期化
 	gameScene->Initialize();
 	*/
@@ -76,7 +75,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 	gameOver->Initialize();
 
-	//gameClear->Initialize();
+	gameClear->Initialize();
 
 
 	while (true)
@@ -88,16 +87,6 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		}
 
 		
-
-
-
-
-
-
-
-
-
-
 
 
 		// シーン切り替え
@@ -136,7 +125,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	delete gameScene;
 
 	// ゲームクリアシーンの解放
-	// delete gameClear;
+	delete gameClear;
 
 	// ゲームオーバーシーンの解放
 	delete gameOver;
@@ -152,31 +141,27 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 void UpdateScene() 
 {
-
 	switch (scene)
 	{
 	case Scene::kTitle:
 		titleScene->Update();
 		break;
-		/**/
+		
 	case Scene::kTutorial:
 		tutorial->Update();
 		break;
 
 	case Scene::kGame:
-		
 		gameScene->Update();
 		break;
-		/*
+		
 	case Scene::kClear:
 		gameClear->Update();
 		break;
-		*/
-		/**/
+		
 	case Scene::kOver:
 		gameOver->Update();
 		break;
-		
 	}
 }
 
@@ -238,7 +223,6 @@ void ChangeScene()
 		}
 
 		//プレイヤーが敵を倒した場合
-		/*
 		if (gameScene->IsFinished2())
 		{
 			// シーンの変更
@@ -252,17 +236,9 @@ void ChangeScene()
 			gameClear = new GameClear;
 			// クリアシーンの初期化
 			gameClear->Initialize();
-		}*/
-		
-
-
-
-
-
-
-
+		}
 		break;
-		/*
+		
 	case Scene::kClear:
 
 		if (gameClear->IsFinished())
@@ -283,7 +259,7 @@ void ChangeScene()
 		    titleScene->Initialize();
 		}
 		break;
-*/
+
 	case Scene::kOver:
 
 		if (gameOver->IsFinished())
@@ -324,14 +300,13 @@ void DrawScene()
 	case Scene::kGame:
 		gameScene->Draw();
 		break;
-		/*
+		
 	case Scene::kClear:
 		gameClear->Draw();
 		break;
-*/
+
 	case Scene::kOver:
 		gameOver->Draw();
 		break;
-		
 	}
 }

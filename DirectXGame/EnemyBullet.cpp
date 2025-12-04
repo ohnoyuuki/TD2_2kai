@@ -68,14 +68,14 @@ KamataEngine::Vector3 EnemyBullet::GetWorldPosition()
 
 
 
-#pragma region 敵弾とバリアの衝突
+#pragma region プレイヤーの弾と敵の弾の衝突
 
 
-AABB EnemyBullet::GetAABB3()
+AABB3 EnemyBullet::GetAABB3()
 {
 	KamataEngine::Vector3 worldPos = GetWorldPosition();
 
-	AABB aabb;
+	AABB3 aabb;
 
 	aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeight / 2.0f, worldPos.z - kWidth / 2.0f};
 	aabb.max = {worldPos.x + kWidth / 2.0f, worldPos.y + kHeight / 2.0f, worldPos.z + kWidth / 2.0f};
@@ -83,8 +83,8 @@ AABB EnemyBullet::GetAABB3()
 	return aabb;
 }
 
-// 敵弾とバリアの衝突応答
-void EnemyBullet::OnCollition3(const Barrier* barrier) { (void)barrier; }
+// プレイヤーの弾と敵の弾の衝突
+void EnemyBullet::OnCollition3(const PlayerBullet* playerBullet) { (void)playerBullet; }
 
 #pragma endregion
 

@@ -109,7 +109,7 @@ void GameScene::Initialize()
 	
 
 	
-	// パーティクル
+	// デスパーティクル
 	deathParticles_ = new DeathParticle();
 	deathParticles_->Initialize(modelParticle_, &camera_, playerPosition);
 	
@@ -243,7 +243,7 @@ GameScene::~GameScene()
 
 
 	delete deathParticles_;
-
+	
 	// フェード
 	delete fade_;
 
@@ -275,8 +275,6 @@ GameScene::~GameScene()
 //更新
 void GameScene::Update() 
 {
-	
-
 	// フェード
 	fade_->Update();
 
@@ -300,6 +298,14 @@ void GameScene::Update()
 			deathParticles_ = new DeathParticle();
 			deathParticles_->Initialize(modelParticle_, &camera_, deathParticlesPosition);
 		}		
+
+
+		if (enemy_->IsEnemyDead() == true) 
+		{
+			// デス演出フェーズに切り替え
+			phase_ = Phase::kEnemyDeath;
+		}		
+
 		break;
 
 	case Phase::kDeath:
@@ -332,14 +338,7 @@ case Phase::kEnemyDeath:
 
 
 
-	// デスパーティクルの更新
-	deathParticles_->Update();
-	if (deathParticles_ && deathParticles_->isFinished_)
-	{
-		// フェードアウト開始
-		phase_ = Phase::kFadeOut;
-		fade_->Start(Fade::Status::FadeOut, 1.0f);
-	}
+	
 
 
 		break;
@@ -475,14 +474,15 @@ void GameScene::Draw()
 	//
 	// model_->Draw(worldTransform_, camera_, textureHandle_);
 
-	// 自キャラの描画
-	if (phase_ == Phase::kPlay || phase_ == Phase::kFadeIn)
+	// 自キャラの描画 下記のフェーズのみ描画
+	if (phase_ == Phase::kPlay || phase_ == Phase::kFadeIn || phase_ == Phase::kEnemyDeath)
 	{
 		player_->Draw();
 	}
 
-	// 敵の描画
-	if (phase_ == Phase::kPlay || phase_ == Phase::kFadeIn) 
+	
+	// 敵の描画 下記のフェーズのみ描画
+	if (phase_ == Phase::kPlay || phase_ == Phase::kFadeIn || phase_ == Phase::kDeath) 
 	{
 		enemy_->Draw();
 	}
@@ -497,7 +497,8 @@ void GameScene::Draw()
 	{
 		deathParticles_->Draw();
 	}
-
+	
+	
 
 	#pragma region 自キャラの弾の処理
 
@@ -659,22 +660,49 @@ void GameScene::CheckAllCollisions()
 		if (IsCollition2(aabb3, aabb4))
 		{
 			// 自キャラの衝突時関数を呼び出す
-			bullet->OnCollition2(enemy_);
+  			bullet->OnCollition2(enemy_);
 			// 敵の衝突時関数を呼び出す
 			enemy_->OnCollition2(bullet);
 		}
 	}
 	#pragma endregion
 	
+
+	#pragma region 敵の弾とプレイヤーの弾
+
+	// 判定対象1と2の座標
+	AABB3 aabb5, aabb6;
 	
-	
-	
+	for (PlayerBullet* bullet : bullets_)
+	{
+		// 自キャラの弾
+		aabb5 = bullet->GetAABB3();
+		if (IsCollition3(aabb5, aabb6))
+		{
+			// 自キャラの衝突時関数を呼び出す
+			bullet->OnCollition3(enemyBullet_);
+			// 敵の衝突時関数を呼び出す
+			enemyBullet_->OnCollition3(bullet);
+		}
+	}
+
+	for (EnemyBullet* Ebullet : E_bullets_)
+	{
+		// 自キャラの弾
+		aabb6 = Ebullet->GetAABB3();
+		if (IsCollition3(aabb5, aabb6))
+		{
+			// 自キャラの衝突時関数を呼び出す
+			Ebullet->OnCollition3(playerBullet_);
+			// 敵の衝突時関数を呼び出す
+			playerBullet_->OnCollition3(Ebullet);
+		}
+	}
+	#pragma endregion
 
 
 
-	
-	
-	
+
 
 
 
@@ -737,7 +765,7 @@ void GameScene::ChangePhase()
 	{
 	case Phase::kPlay:
 		// ゲームプレイフェーズの処理
-		#pragma region プレイヤーのフェーズ
+		#pragma region プレイヤー
 		if (player_->IsDead() == true)
 		{
 			// デス演出フェーズに切り替え
@@ -753,22 +781,15 @@ void GameScene::ChangePhase()
         #pragma endregion
 
 
-		#pragma region プレイヤーのフェーズ
+		#pragma region 敵
 		if (enemy_->IsEnemyDead() == true)
 		{
 			// デス演出フェーズに切り替え
 			phase_ = Phase::kEnemyDeath;
 
-			// 敵の座標を取得
-			const KamataEngine::Vector3 deathParticlesPosition = enemy_->GetWorldPosition();
-
-			// パーティクル
-			deathParticles_ = new DeathParticle();
-			deathParticles_->Initialize(modelParticle_, &camera_, deathParticlesPosition);
+			
 		}
 		#pragma endregion
-
-
 
 
 
@@ -787,11 +808,10 @@ void GameScene::ChangePhase()
 		break;
 	case Phase::kEnemyDeath:
 
-		if (deathParticles_) 
-		{
+		
 			// シーン終了
 			finished2_ = true;
-		}
+		
 		
 		break;
 	}
