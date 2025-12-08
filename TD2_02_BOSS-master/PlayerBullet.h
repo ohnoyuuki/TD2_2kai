@@ -23,9 +23,9 @@ public:
 
 
 	//デスフラグ
-	bool isDead_ = false;
+	bool isPBDead_ = false;
 
-	bool IsDead() const { return isDead_; }
+	bool IsPBDead() const { return isPBDead_; }
 
 	
 	//速度

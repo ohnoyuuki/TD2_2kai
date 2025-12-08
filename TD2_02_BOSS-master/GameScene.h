@@ -1,6 +1,6 @@
 #pragma once
 #include "KamataEngine.h"
-#include "MapChipField.h"
+//#include "MapChipField.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Skydome.h"
@@ -77,7 +77,7 @@ private:
 	
 
 	// 3D
-	KamataEngine::Model* cube_ = nullptr;
+	//KamataEngine::Model* cube_ = nullptr;
 
 
 
@@ -146,7 +146,7 @@ private:
 	MapChipField* mapChipField_;
 	
 	// 表示ブロックの生成
-	void GenerateBlocks();
+	//void GenerateBlocks();
 	
 	// カメラコントロール
 	CameraController* cameraController_ = nullptr;

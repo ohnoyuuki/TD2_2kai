@@ -1,5 +1,5 @@
 #include "GameScene.h"
-#include "MapChipField.h"
+//#include "MapChipField.h"
 #include "MyMath.h"
 #include "CameraController.h"
 #include "Player.h"
@@ -39,7 +39,7 @@ void GameScene::Initialize()
 	debugCamera_ = new DebugCamera(100, 200);
 	
 
-	cube_ = Model::CreateFromOBJ("block");
+	//cube_ = Model::CreateFromOBJ("block");
 
 
 
@@ -79,7 +79,7 @@ void GameScene::Initialize()
 	
 	
 	// マップチップフィールドの生成
-	mapChipField_ = new MapChipField;
+	//mapChipField_ = new MapChipField;
 	
 
 
@@ -87,9 +87,9 @@ void GameScene::Initialize()
 
 	//プレイヤー
 	// 座標をマップチップ番号で指定
-	KamataEngine::Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(1, 18);
+	KamataEngine::Vector3 playerPosition = {-10, 1, 1};
 	player_->Initialize(modelPlayer_, &camera_, playerPosition);
-	player_->SetMapChipField(mapChipField_); // 自キャラの生成と初期化
+	//player_->SetMapChipField(mapChipField_); // 自キャラの生成と初期化
 	// 自キャラの弾
 	playerBullet_ = new PlayerBullet();
 	playerBullet_->Initialize(modelPlayerBullet_, &camera_, playerPosition, velocity_);
@@ -98,9 +98,9 @@ void GameScene::Initialize()
 
 
 	//敵
-	KamataEngine::Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(32, 16);
+	KamataEngine::Vector3 enemyPosition = {20, 5, 5};
 	enemy_->Initialize(modelEnemy_, &camera_, enemyPosition);
-	enemy_->SetMapChipField(mapChipField_);
+	//enemy_->SetMapChipField(mapChipField_);
 	
 	// 敵の弾
 	enemyBullet_ = new EnemyBullet();
@@ -136,10 +136,10 @@ void GameScene::Initialize()
 	
 
 
-	
+	/*
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 	//表示ブロックの生成
-	GenerateBlocks();
+	GenerateBlocks();*/
 	
 	
 	
@@ -183,38 +183,38 @@ void GameScene::Initialize()
 
 
 //ブロック
-void GameScene::GenerateBlocks() 
-{
-	// 要素数
-	uint32_t numBlockVirtical = mapChipField_->GetNumBlockVirtical();
-	uint32_t numBlockHorizontal = mapChipField_->GetNumBlockHorizontal();
-	// ブロック1個分の横幅
-	// const float kBlockWidth = 2.0f;
-	// const float kBlockHeight = 2.0f;
-	// 要素数を変更する
-	worldTransformBlocks_.resize(numBlockVirtical);
-
-	////キューブの生成
-	for (uint32_t i = 0; i < numBlockVirtical; i++)
-	{
-		worldTransformBlocks_[i].resize(numBlockHorizontal);
-	}
-
-	// ブロックの生成
-	for (uint32_t i = 0; i < numBlockVirtical; i++)
-	{
-		for (uint32_t j = 0; j < numBlockHorizontal; j++) 
-		{
-			if (mapChipField_->GetMapChipTypeByIndex(j, i) == MapChipType::kBlock) // 1マス分にボックスの形にしたいなら(i + j)にする
-			{
-				WorldTransform* worldTransform = new WorldTransform();
-				worldTransform->Initialize();
-				worldTransformBlocks_[i][j] = worldTransform;
-				worldTransformBlocks_[i][j]->translation_ = mapChipField_->GetMapChipPositionByIndex(j, i);
-			}
-		}
-	}
-}
+//void GameScene::GenerateBlocks() 
+//{
+//	// 要素数
+//	uint32_t numBlockVirtical = mapChipField_->GetNumBlockVirtical();
+//	uint32_t numBlockHorizontal = mapChipField_->GetNumBlockHorizontal();
+//	// ブロック1個分の横幅
+//	// const float kBlockWidth = 2.0f;
+//	// const float kBlockHeight = 2.0f;
+//	// 要素数を変更する
+//	worldTransformBlocks_.resize(numBlockVirtical);
+//
+//	////キューブの生成
+//	for (uint32_t i = 0; i < numBlockVirtical; i++)
+//	{
+//		worldTransformBlocks_[i].resize(numBlockHorizontal);
+//	}
+//
+//	// ブロックの生成
+//	for (uint32_t i = 0; i < numBlockVirtical; i++)
+//	{
+//		for (uint32_t j = 0; j < numBlockHorizontal; j++) 
+//		{
+//			if (mapChipField_->GetMapChipTypeByIndex(j, i) == MapChipType::kBlock) // 1マス分にボックスの形にしたいなら(i + j)にする
+//			{
+//				WorldTransform* worldTransform = new WorldTransform();
+//				worldTransform->Initialize();
+//				worldTransformBlocks_[i][j] = worldTransform;
+//				worldTransformBlocks_[i][j]->translation_ = mapChipField_->GetMapChipPositionByIndex(j, i);
+//			}
+//		}
+//	}
+//}
 
 
 
@@ -258,8 +258,9 @@ GameScene::~GameScene()
 	delete debugCamera_;
 
 	// マップチップフィールドの解放
-	delete mapChipField_;
-
+	/**/
+	//delete mapChipField_;
+	/**/
 	for (std::vector<KamataEngine::WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) 
 	{
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) 
@@ -284,7 +285,7 @@ void GameScene::Update()
 		
 		// 全ての当たり判定
 		CheckAllCollisions();
-
+		
 		// ゲームプレイフェーズの処理
 		if (player_->IsDead() == true)
 		{
@@ -297,6 +298,7 @@ void GameScene::Update()
 			// パーティクル
 			deathParticles_ = new DeathParticle();
 			deathParticles_->Initialize(modelParticle_, &camera_, deathParticlesPosition);
+			
 		}		
 
 
@@ -318,6 +320,7 @@ void GameScene::Update()
 			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
+			finished_ = true;
 		}
 
 
@@ -336,10 +339,16 @@ void GameScene::Update()
 
 case Phase::kEnemyDeath:
 
-
-
-	
-
+	// デスパーティクルの更新
+	deathParticles_->Update();
+	if (deathParticles_ && deathParticles_->isFinished_)
+	{
+		// フェードアウト開始
+		phase_ = Phase::kFadeOut;
+		fade_->Start(Fade::Status::FadeOut, 1.0f);
+		finished2_ = true;
+	}
+	    
 
 		break;
 
@@ -579,7 +588,7 @@ void GameScene::Draw()
 	barrier_->Draw();
 
 
-
+	/*
 	//ブロックの描画
 	for (std::vector<KamataEngine::WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_)
 	{
@@ -591,7 +600,11 @@ void GameScene::Draw()
 			}
 			cube_->Draw(*worldTransformBlock, camera_);
 		}
-	}
+	}*/
+    
+
+
+
 
 	skydome_->Draw();
 
@@ -808,9 +821,12 @@ void GameScene::ChangePhase()
 		break;
 	case Phase::kEnemyDeath:
 
-		
+		if (deathParticles_)
+		{
 			// シーン終了
 			finished2_ = true;
+		}
+			
 		
 		
 		break;

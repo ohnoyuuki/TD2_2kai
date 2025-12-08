@@ -39,9 +39,6 @@ public:
 	// 自キャラ
 	Player* player_ = nullptr;
 
-	// マップチップフィールド
-	MapChipField* mapChipField_;
-
 private:
 	// 3Dモデルデータ
 	KamataEngine::Model* model_ = nullptr;

@@ -119,7 +119,9 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	delete titleScene;
 
 	// チュートリアルシーンの解放
-	delete tutorial;
+	if (tutorial) {
+		delete tutorial;
+	}
 
 	// ゲームシーンの解放
 	delete gameScene;
@@ -184,7 +186,7 @@ void ChangeScene()
 			// シーンの変更
 			scene = Scene::kTutorial;
 			// 旧シーンの解放
-			//delete titleScene;
+			delete titleScene;
 			titleScene = nullptr;
 			// 新シーンの生成と初期化
 			tutorial = new Tutorial();
@@ -198,7 +200,8 @@ void ChangeScene()
 			// シーンの変更
 			scene = Scene::kTitle;
 			// 旧シーンの解放
-			//delete tutorial;
+			delete tutorial;
+			tutorial = nullptr;
 			titleScene = nullptr;
 			// 新シーンの生成と初期化
 			titleScene = new TitleScene();

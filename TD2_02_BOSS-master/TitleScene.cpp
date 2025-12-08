@@ -8,7 +8,7 @@ void TitleScene::Initialize()
 {
 	//タイトルのスプライト
 	textureHandle_ = TextureManager::Load("title.png");
-	titleSprite_ = Sprite::Create(textureHandle_, {0, 0});
+	titleSprite_ = KamataEngine::Sprite::Create(textureHandle_, {0, 0});
 
 
 
@@ -69,7 +69,6 @@ void TitleScene::Update()
 		break;
 	}
 }
-
 void TitleScene::Draw() 
 {
 	// DirectXCommonインスタンスの取得

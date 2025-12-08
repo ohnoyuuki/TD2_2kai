@@ -17,9 +17,9 @@ public:
 	bool isFinished_ = false;
 
 	// デスフラグ
-	bool isDead_ = false;
+	bool isEBDead_ = false;
 
-	bool IsDead() const { return isDead_; }
+	bool IsEBDead() const { return isEBDead_; }
 
 	// 速度
 	KamataEngine::Vector3 velocity_;

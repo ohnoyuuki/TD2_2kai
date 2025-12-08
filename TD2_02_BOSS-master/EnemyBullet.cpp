@@ -84,7 +84,11 @@ AABB3 EnemyBullet::GetAABB3()
 }
 
 // プレイヤーの弾と敵の弾の衝突
-void EnemyBullet::OnCollition3(const PlayerBullet* playerBullet) { (void)playerBullet; }
+void EnemyBullet::OnCollition3(const PlayerBullet* playerBullet)
+{
+	(void)playerBullet; 
+
+}
 
 #pragma endregion
 

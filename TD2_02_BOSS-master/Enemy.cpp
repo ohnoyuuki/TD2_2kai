@@ -249,7 +249,7 @@ AABB2 Enemy::GetAABB2()
 void Enemy::OnCollition2(const PlayerBullet* playerBullet)
 {
 	(void)playerBullet;
-	enemyHp -= 100;
+	enemyHp -= 10;
 }
 
 

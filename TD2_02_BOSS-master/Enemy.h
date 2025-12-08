@@ -4,7 +4,7 @@
 #include"EnemyBullet.h"
 #include<list>
 
-class MapChipField;
+
 class Player;
 class PlayerBullet;
 class Enemy
@@ -23,20 +23,9 @@ public:
 	static inline const float kHeight =10.0f;
 
 	// マップチップによるフィールド
-	MapChipField* mapChipField_ = nullptr;
+	//MapChipField* mapChipField_ = nullptr;
 
-	void SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
-
-	// マップとの当たり判定情報
-	struct CollisionMapInfo
-	{
-		bool ceiling = false;            // 天井衝突フラグ
-		bool langing = false;            // 着地フラグ
-		bool hitwall = false;            // 壁接触フラグ
-		KamataEngine::Vector3 move = {}; // 移動量
-	};
-
-
+	
 
 	/*
 	void CheckMapCollision(CollisionMapInfo& info);

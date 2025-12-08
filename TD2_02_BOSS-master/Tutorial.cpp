@@ -1,4 +1,4 @@
-#include "Tutorial.h"
+﻿#include "Tutorial.h"
 #include "MapChipField.h"
 
 using namespace KamataEngine;
@@ -7,7 +7,7 @@ void Tutorial::Initialize()
 {
 	//チュートリアルのスプライト
 	textureHandle_ = TextureManager::Load("explanation.png");
-	tutorialSprite_ = Sprite::Create(textureHandle_, {0, 0});
+	tutorialSprite_ = KamataEngine::Sprite::Create(textureHandle_, {0, 0});
 	
 	
 	
@@ -68,14 +68,14 @@ void Tutorial::Draw()
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
 	// 3Dモデル描画前処理
-	Model::PreDraw(dxCommon->GetCommandList());
+	//Model::PreDraw(dxCommon->GetCommandList());
 
 	// ここに3Dモデルインスタンスの描画処理を記述する
 	// model_->Draw(worldTransform_, camera_);
 	// modelPlayer_->Draw(worldTransformPlayer_, camera_);
 
 	// 3Dモデル描画後処理
-	Model::PostDraw();
+	//Model::PostDraw();
 
 
 	Sprite::PreDraw(dxCommon->GetCommandList());
@@ -92,6 +92,12 @@ void Tutorial::Draw()
 
 Tutorial::~Tutorial()
 {
-	delete fade_;
-	//delete tutorialSprite_;
+	if (fade_) {
+ 		delete fade_;
+		fade_ = nullptr;
+	}
+	
+	if(tutorialSprite_) {
+		delete tutorialSprite_;
+	}
 }

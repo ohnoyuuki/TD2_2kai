@@ -4,7 +4,6 @@
 #include"PlayerBullet.h"
 #include<list>
 
-class MapChipField;
 class Enemy;
 class Player
 {
@@ -17,36 +16,7 @@ public:
 	// キャラクターの当たり判定サイズ
 	static inline const float kWidth = 0.8f;
 	static inline const float kHeight = 0.8f;
-
-	// マップチップによるフィールド
-	MapChipField* mapChipField_ = nullptr;
-
-	void SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
-
-	// マップとの当たり判定情報
-	struct CollisionMapInfo
-	{
-		bool ceiling = false;            // 天井衝突フラグ
-		bool langing = false;            // 着地フラグ
-		bool hitwall = false;            // 壁接触フラグ
-		KamataEngine::Vector3 move = {}; // 移動量
-	};
-
-	void CheckMapCollision(CollisionMapInfo& info);
-	void CheckMapCollisionUP(CollisionMapInfo& info);    // 上方向
-	void CheckMapCollisionDown(CollisionMapInfo& info);  // 下方向
-	void CheckMapCollisionRight(CollisionMapInfo& info); // 右方向
-	void CheckMapCollisionLeft(CollisionMapInfo& info);  // 左方向
-	// 3.判定結果を反映して移動させる
-	void CheckMapMove(const CollisionMapInfo& info);
-	// 4.天井に接触している場合の処理
-	void CheckMapCeiling(const CollisionMapInfo& info);
-	// 5.壁に接触している場合の処理
-	void CheckMapWall(CollisionMapInfo& info);
-	// 6.接地状態の切り替え
-	void CheckMapLanding(const CollisionMapInfo& info);
-	// 着地フラグ
-
+	
 	// 角
 	enum Corner
 	{
@@ -124,7 +94,7 @@ public:
 	// 初期化
 	void Initialize(KamataEngine::Model* model, KamataEngine::Camera* camera, KamataEngine::Vector3& position);
 
-	void InputMove();
+	
 
 	// 更新
 	void Update();

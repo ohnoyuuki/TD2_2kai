@@ -23,7 +23,7 @@ public:
 	void SetTarget(Player* target) { target_ = target; }
 
 	// 追従対象とカメラの座標の差(オフセット)
-	Vector3 targetOffset_ = {0, 0, -15.0f};
+	Vector3 targetOffset_ = {0, 0, -50.0f};
 
 	
 
