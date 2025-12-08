@@ -49,6 +49,11 @@ void GameScene::Initialize()
 	modelPlayer_ = Model::CreateFromOBJ("roboto", true);
 	
 	
+	// 自キャラHPのスプライト
+	playerhpHandle_ = TextureManager::Load("hp.png");
+	playerhpSprite_ = KamataEngine::Sprite::Create(playerhpHandle_, {0, 680});
+
+
 	//自キャラの弾
 	modelPlayerBullet_ = Model::CreateFromOBJ("tama", true);
 
@@ -60,8 +65,9 @@ void GameScene::Initialize()
 	modelEnemyBullet_ = Model::CreateFromOBJ("Etama", true);
 
 
-
-
+	// 敵HPのスプライト
+	enemyhpHandle_ = TextureManager::Load("Ehp.png");
+	enemyhpSprite_ = KamataEngine::Sprite::Create(enemyhpHandle_, {1050, 0});
 
 
 	//パーティクルの3Dモデルデータの生成
@@ -226,8 +232,12 @@ GameScene::~GameScene()
 	delete skydome_;
 
 	delete player_;
+
+	delete playerhpSprite_;
 	
 	delete enemy_;
+
+	delete enemyhpSprite_;
 
 	delete barrier_;
 
@@ -615,6 +625,19 @@ void GameScene::Draw()
 
 	// フェード
 	fade_->Draw();
+
+
+	//2Dモデル描画
+	Sprite::PreDraw(dxCommon->GetCommandList());
+
+	playerhpSprite_->Draw();
+
+	enemyhpSprite_->Draw();
+
+	// 3Dモデル描画前処理
+	Sprite::PostDraw();
+
+
 }
 
 
