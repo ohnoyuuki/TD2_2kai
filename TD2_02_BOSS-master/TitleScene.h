@@ -16,11 +16,11 @@ public:
 	};
 
 	// 終了フラグ
-	bool finished_ = false;
-	bool IsFinished() const { return finished_; }
+	bool finishedTitle_ = false;
+	bool IsFinishedT() const { return finishedTitle_; }
 
-	bool finished2_ = false;
-	bool IsFinished2() const { return finished2_; }
+	bool finishedTitle2_ = false;
+	bool IsFinishedT2() const { return finishedTitle2_; }
 
 	void Initialize();
 	void Update();

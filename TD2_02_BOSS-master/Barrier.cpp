@@ -11,7 +11,7 @@ using namespace MathUtility;
 
 
 
-void Barrier::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera) 
+void Barrier::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera)
 {
 	// NULLポインタチェック
 	assert(model);
@@ -36,8 +36,6 @@ void Barrier::Update()
 	// 座標の計算
 	worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 	worldTransform_.TransferMatrix();
-
-
 
 
 

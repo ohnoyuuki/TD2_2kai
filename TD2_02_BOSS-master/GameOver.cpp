@@ -12,9 +12,7 @@ void GameOver::Initialize()
 
 
 
-	// 3Dモデルの生成
-	// model_ = Model::CreateFromOBJ("titleFont");
-	// modelPlayer_ = Model::CreateFromOBJ("player");
+	
 	// カメラの初期化
 	camera_.Initialize();
 	// ワールド変換の初期化
@@ -39,7 +37,7 @@ void GameOver::Update()
 			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
-			finished_ = true;
+			finishedO_ = true;
 		}
 
 		break;
@@ -56,7 +54,7 @@ void GameOver::Update()
 		fade_->Update();
 		if (fade_->IsFinished())
 		{
-			finished_ = true;
+			finishedO_ = true;
 		}
 		break;
 	}
@@ -67,17 +65,7 @@ void GameOver::Draw()
 	// DirectXCommonインスタンスの取得
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
-	// 3Dモデル描画前処理
-	Model::PreDraw(dxCommon->GetCommandList());
-
 	
-	// ここに3Dモデルインスタンスの描画処理を記述する
-	// model_->Draw(worldTransform_, camera_);
-	// modelPlayer_->Draw(worldTransformPlayer_, camera_);
-
-	// 3Dモデル描画後処理
-	Model::PostDraw();
-
 
 	Sprite::PreDraw(dxCommon->GetCommandList());
 
@@ -92,8 +80,7 @@ void GameOver::Draw()
 
 GameOver::~GameOver() 
 {
-	// モデル
-	// delete model_;
+	
 	//  フェード
 	delete fade_;
 	delete overSprite_;

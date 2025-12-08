@@ -119,7 +119,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	delete titleScene;
 
 	// チュートリアルシーンの解放
-	if (tutorial) {
+	if (tutorial) 
+	{
 		delete tutorial;
 	}
 
@@ -172,7 +173,7 @@ void ChangeScene()
 	switch (scene) 
 	{
 	case Scene::kTitle:
-		if (titleScene->IsFinished()) 
+		if (titleScene->IsFinishedT()) 
 		{
 			// シーンの変更
 			scene = Scene::kGame;
@@ -181,7 +182,7 @@ void ChangeScene()
 			gameScene->Initialize();
 		}
 
-		if (titleScene->IsFinished2()) 
+		if (titleScene->IsFinishedT2()) 
 		{
 			// シーンの変更
 			scene = Scene::kTutorial;
@@ -195,9 +196,9 @@ void ChangeScene()
 
 		break;
 	case Scene::kTutorial:
-		if (tutorial->IsFinished())
+		if (tutorial->IsFinishedTU())
 		{
-			// シーンの変更
+		// シーンの変更
 			scene = Scene::kTitle;
 			// 旧シーンの解放
 			delete tutorial;
@@ -212,7 +213,7 @@ void ChangeScene()
 	case Scene::kGame:
 
 		//ゲームシーンでバリアが破壊された場合
-		if (gameScene->IsFinished())
+		if (gameScene->IsFinishedGAME())
 		{
 			// シーンの変更
 			scene = Scene::kOver;
@@ -220,13 +221,12 @@ void ChangeScene()
 			// 旧シーンの解放
 			delete gameScene;
 			gameScene = nullptr;
-
 			gameOver = new GameOver;
 			gameOver->Initialize();
 		}
 
 		//プレイヤーが敵を倒した場合
-		if (gameScene->IsFinished2())
+		if (gameScene->IsFinishedGAME2())
 		{
 			// シーンの変更
 			scene = Scene::kClear;
@@ -244,7 +244,7 @@ void ChangeScene()
 		
 	case Scene::kClear:
 
-		if (gameClear->IsFinished())
+		if (gameClear->IsFinishedC())
 		{
 		    // シーンの変更
 		    scene = Scene::kTitle;
@@ -265,7 +265,7 @@ void ChangeScene()
 
 	case Scene::kOver:
 
-		if (gameOver->IsFinished())
+		if (gameOver->IsFinishedO())
 		{
 		    // シーンの変更
 		    scene = Scene::kTitle;

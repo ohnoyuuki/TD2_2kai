@@ -12,10 +12,11 @@
 #include "Fade.h"
 #include <vector>
 #include <list>
-
-using namespace KamataEngine;
-
 // ゲームシーン
+
+
+
+
 class GameScene
 {
 public:
@@ -32,10 +33,16 @@ public:
 	// 描画
 	void Draw();
 
-	// デスフラグのgetter
-	bool IsFinished() const { return finished_; }
 
-	bool IsFinished2() const { return finished2_; }
+	// 終了フラグ
+	bool finishedGAME_ = false;
+	// デスフラグのgetter
+	bool IsFinishedGAME() const { return finishedGAME_; }//ゲームオーバー
+	
+	
+	// 敵を倒した場合のフラグ
+	bool finishedGAME2_ = false;
+	bool IsFinishedGAME2() const { return finishedGAME2_; }//ゲームクリア
 
 
 
@@ -85,21 +92,14 @@ private:
 	// モデルプレイヤー
 	KamataEngine::Model* modelPlayer_ = nullptr;
 	
-	//自HP
-	//  テクスチャハンドル
-	uint32_t playerhpHandle_ = 0;
-	Sprite* playerhpSprite_ = nullptr;
-
-
 
 
 	// 敵
 	Enemy* enemy_ = nullptr;
 	KamataEngine::Model* modelEnemy_ = nullptr;
 	
-	//敵HP
-	uint32_t enemyhpHandle_ = 0;
-	Sprite* enemyhpSprite_ = nullptr;
+
+
 
 
 	#pragma region 自キャラの弾
@@ -202,11 +202,7 @@ private:
 	// フェーズの切り替え
 	void ChangePhase();
 	
-	// 終了フラグ
-	bool finished_ = false;
 	
-	//敵を倒した場合のフラグ
-	bool finished2_ = false;
 
 
 	// フェード

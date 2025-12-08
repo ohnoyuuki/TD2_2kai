@@ -26,15 +26,8 @@ public:
 	static inline const float kHeight = 720.0f;
 
 
-
-	
-
-
 	// 体力表示
 	int BarrierHp;
-
-
-
 
 
 private:

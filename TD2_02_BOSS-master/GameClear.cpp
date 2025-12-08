@@ -9,9 +9,7 @@ void GameClear::Initialize()
 	textureHandle_ = TextureManager::Load("CLEAR.png");
 	clearSprite_ = Sprite::Create(textureHandle_, {0, 0});
 
-	// 3Dモデルの生成
-	// model_ = Model::CreateFromOBJ("titleFont");
-	// modelPlayer_ = Model::CreateFromOBJ("player");
+	
 	// カメラの初期化
 	camera_.Initialize();
 	// ワールド変換の初期化
@@ -36,7 +34,7 @@ void GameClear::Update()
 			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
-			finished_ = true;
+			finishedC_ = true;
 		}
 
 		break;
@@ -53,7 +51,7 @@ void GameClear::Update()
 		fade_->Update();
 		if (fade_->IsFinished()) 
 		{
-			finished_ = true;
+			finishedC_ = true;
 		}
 		break;
 	}
@@ -67,9 +65,7 @@ void GameClear::Draw()
 	// 3Dモデル描画前処理
 	Model::PreDraw(dxCommon->GetCommandList());
 
-	// ここに3Dモデルインスタンスの描画処理を記述する
-	// model_->Draw(worldTransform_, camera_);
-	// modelPlayer_->Draw(worldTransformPlayer_, camera_);
+	
 
 	// 3Dモデル描画後処理
 	Model::PostDraw();
@@ -86,8 +82,7 @@ void GameClear::Draw()
 
 GameClear::~GameClear() 
 {
-	// モデル
-	// delete model_;
+	
 	//  フェード
 	delete fade_;
 	delete clearSprite_;

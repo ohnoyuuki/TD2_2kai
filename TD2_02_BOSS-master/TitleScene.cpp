@@ -11,10 +11,6 @@ void TitleScene::Initialize()
 	titleSprite_ = KamataEngine::Sprite::Create(textureHandle_, {0, 0});
 
 
-
-	// 3Dモデルの生成
-	//model_ = Model::CreateFromOBJ("titleFont");
-	// modelPlayer_ = Model::CreateFromOBJ("player");
 	
 	// カメラの初期化
 	camera_.Initialize();
@@ -41,14 +37,14 @@ void TitleScene::Update()
 			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
-			finished_ = true;
+			finishedTitle_ = true;
 		}
 		if (Input::GetInstance()->PushKey(DIK_T)) 
 		{
 			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
-			finished2_ = true;
+			finishedTitle2_ = true;
 		}
 		break;
 	case Phase::kFadeIn:
@@ -64,7 +60,10 @@ void TitleScene::Update()
 		fade_->Update();
 		if (fade_->IsFinished())
 		{
-			finished_ = true;
+			finishedTitle_ = true;
+		} else
+		{
+			finishedTitle2_ = true;
 		}
 		break;
 	}
@@ -76,10 +75,6 @@ void TitleScene::Draw()
 
 	// 3Dモデル描画前処理
 	Model::PreDraw(dxCommon->GetCommandList());
-
-	// ここに3Dモデルインスタンスの描画処理を記述する
-	//model_->Draw(worldTransform_, camera_);
-	// modelPlayer_->Draw(worldTransformPlayer_, camera_);
 
 
 	// 3Dモデル描画後処理
@@ -101,9 +96,7 @@ void TitleScene::Draw()
 
 TitleScene::~TitleScene()
 {
-	// モデル
-	//delete model_;
-	// delete modelPlayer_;
+	
 	//  フェード
 	delete fade_;
 	//タイトルのスプライト

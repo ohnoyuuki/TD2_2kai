@@ -17,32 +17,11 @@ public:
 	// デスフラグのgetter
 	bool IsEnemyDead() const { return isenemyDead_; }
 
-	/**/
+	
 	// 敵の当たり判定サイズ
 	static inline const float kWidth = 10.0f;
 	static inline const float kHeight =10.0f;
 
-	// マップチップによるフィールド
-	//MapChipField* mapChipField_ = nullptr;
-
-	
-
-	/*
-	void CheckMapCollision(CollisionMapInfo& info);
-	void CheckMapCollisionUP(CollisionMapInfo& info);    // 上方向
-	void CheckMapCollisionDown(CollisionMapInfo& info);  // 下方向
-	void CheckMapCollisionRight(CollisionMapInfo& info); // 右方向
-	void CheckMapCollisionLeft(CollisionMapInfo& info);  // 左方向
-	// 3.判定結果を反映して移動させる
-	void CheckMapMove(const CollisionMapInfo& info);
-	// 4.天井に接触している場合の処理
-	void CheckMapCeiling(const CollisionMapInfo& info);
-	// 5.壁に接触している場合の処理
-	void CheckMapWall(CollisionMapInfo& info);
-	// 6.接地状態の切り替え
-	void CheckMapLanding(const CollisionMapInfo& info);
-	// 着地フラグ
-*/
 	
 
 	

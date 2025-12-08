@@ -13,9 +13,9 @@ public:
 	};
 
 	// 終了フラグ
-	bool finished_ = false;
+	bool finishedO_ = false;
 	// デスフラグのgetter
-	bool IsFinished() const { return finished_; }
+	bool IsFinishedO() const { return finishedO_; }
 
 	void Initialize();
 	void Update();
