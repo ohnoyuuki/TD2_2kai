@@ -1,20 +1,20 @@
-#include "Tutorial.h"
+﻿#include "GameOver.h"
+
 #include "MapChipField.h"
+
 
 using namespace KamataEngine;
 
-void Tutorial::Initialize() 
+void GameOver::Initialize()
 {
-	//チュートリアルのスプライト
-	textureHandle_ = TextureManager::Load("explanation.png");
-	tutorialSprite_ = Sprite::Create(textureHandle_, {0, 0});
-	
-	
-	
+	textureHandle_ = TextureManager::Load("gameover.png");
+	overSprite_ = Sprite::Create(textureHandle_, {0, 0});
+
+
+
 	// 3Dモデルの生成
 	// model_ = Model::CreateFromOBJ("titleFont");
 	// modelPlayer_ = Model::CreateFromOBJ("player");
-	
 	// カメラの初期化
 	camera_.Initialize();
 	// ワールド変換の初期化
@@ -27,9 +27,9 @@ void Tutorial::Initialize()
 	fade_->Start(Fade::Status::FadeIn, 1.0f);
 }
 
-void Tutorial::Update()
+void GameOver::Update()
 {
-	switch (phase_) 
+	switch (phase_)
 	{
 	case Phase::kMain:
 
@@ -39,7 +39,7 @@ void Tutorial::Update()
 			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
-			//finished_ = true;
+			finished_ = true;
 		}
 
 		break;
@@ -54,7 +54,7 @@ void Tutorial::Update()
 	case Phase::kFadeOut:
 		// フェード
 		fade_->Update();
-		if (fade_->IsFinished()) 
+		if (fade_->IsFinished())
 		{
 			finished_ = true;
 		}
@@ -62,7 +62,7 @@ void Tutorial::Update()
 	}
 }
 
-void Tutorial::Draw()
+void GameOver::Draw()
 {
 	// DirectXCommonインスタンスの取得
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
@@ -70,6 +70,7 @@ void Tutorial::Draw()
 	// 3Dモデル描画前処理
 	Model::PreDraw(dxCommon->GetCommandList());
 
+	
 	// ここに3Dモデルインスタンスの描画処理を記述する
 	// model_->Draw(worldTransform_, camera_);
 	// modelPlayer_->Draw(worldTransformPlayer_, camera_);
@@ -80,8 +81,7 @@ void Tutorial::Draw()
 
 	Sprite::PreDraw(dxCommon->GetCommandList());
 
-	tutorialSprite_->Draw();
-
+	overSprite_->Draw();
 
 	Sprite::PostDraw();
 
@@ -90,10 +90,11 @@ void Tutorial::Draw()
 	fade_->Draw();
 }
 
-Tutorial::~Tutorial()
+GameOver::~GameOver() 
 {
+	// モデル
+	// delete model_;
+	//  フェード
 	delete fade_;
-	//delete tutorialSprite_;
-
-	
+	delete overSprite_;
 }

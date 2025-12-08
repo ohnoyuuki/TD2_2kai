@@ -1,18 +1,19 @@
-#include "Tutorial.h"
+#include"TitleScene.h"
+#include "Player.h"
 #include "MapChipField.h"
 
 using namespace KamataEngine;
 
-void Tutorial::Initialize() 
+void TitleScene::Initialize()
 {
-	//チュートリアルのスプライト
-	textureHandle_ = TextureManager::Load("explanation.png");
-	tutorialSprite_ = Sprite::Create(textureHandle_, {0, 0});
-	
-	
-	
+	//タイトルのスプライト
+	textureHandle_ = TextureManager::Load("title.png");
+	titleSprite_ = Sprite::Create(textureHandle_, {0, 0});
+
+
+
 	// 3Dモデルの生成
-	// model_ = Model::CreateFromOBJ("titleFont");
+	//model_ = Model::CreateFromOBJ("titleFont");
 	// modelPlayer_ = Model::CreateFromOBJ("player");
 	
 	// カメラの初期化
@@ -27,21 +28,28 @@ void Tutorial::Initialize()
 	fade_->Start(Fade::Status::FadeIn, 1.0f);
 }
 
-void Tutorial::Update()
+void TitleScene::Update() 
 {
-	switch (phase_) 
+
+	switch (phase_)
 	{
 	case Phase::kMain:
 
 		// タイトルシーンの終了条件
-		if (Input::GetInstance()->PushKey(DIK_E))
+		if (Input::GetInstance()->PushKey(DIK_SPACE))
 		{
 			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
-			//finished_ = true;
+			finished_ = true;
 		}
-
+		if (Input::GetInstance()->PushKey(DIK_T)) 
+		{
+			// フェードアウト開始
+			phase_ = Phase::kFadeOut;
+			fade_->Start(Fade::Status::FadeOut, 1.0f);
+			finished2_ = true;
+		}
 		break;
 	case Phase::kFadeIn:
 		// フェード
@@ -54,7 +62,7 @@ void Tutorial::Update()
 	case Phase::kFadeOut:
 		// フェード
 		fade_->Update();
-		if (fade_->IsFinished()) 
+		if (fade_->IsFinished())
 		{
 			finished_ = true;
 		}
@@ -62,7 +70,7 @@ void Tutorial::Update()
 	}
 }
 
-void Tutorial::Draw()
+void TitleScene::Draw() 
 {
 	// DirectXCommonインスタンスの取得
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
@@ -71,29 +79,34 @@ void Tutorial::Draw()
 	Model::PreDraw(dxCommon->GetCommandList());
 
 	// ここに3Dモデルインスタンスの描画処理を記述する
-	// model_->Draw(worldTransform_, camera_);
+	//model_->Draw(worldTransform_, camera_);
 	// modelPlayer_->Draw(worldTransformPlayer_, camera_);
+
 
 	// 3Dモデル描画後処理
 	Model::PostDraw();
 
-
 	Sprite::PreDraw(dxCommon->GetCommandList());
 
-	tutorialSprite_->Draw();
+
+	titleSprite_->Draw();
 
 
 	Sprite::PostDraw();
+
 
 
 	// フェード
 	fade_->Draw();
 }
 
-Tutorial::~Tutorial()
+TitleScene::~TitleScene()
 {
+	// モデル
+	//delete model_;
+	// delete modelPlayer_;
+	//  フェード
 	delete fade_;
-	//delete tutorialSprite_;
-
-	
+	//タイトルのスプライト
+	delete titleSprite_;
 }

@@ -137,7 +137,7 @@ void GameScene::Initialize()
 
 
 	
-	//mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
+	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 	//表示ブロックの生成
 	GenerateBlocks();
 	

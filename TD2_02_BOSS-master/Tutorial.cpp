@@ -39,7 +39,7 @@ void Tutorial::Update()
 			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
-			//finished_ = true;
+			finished_ = true;
 		}
 
 		break;
@@ -94,6 +94,4 @@ Tutorial::~Tutorial()
 {
 	delete fade_;
 	//delete tutorialSprite_;
-
-	
 }

@@ -1,9 +1,7 @@
-#pragma once
+﻿#pragma once
 #include"KamataEngine.h"
 #include "MapChipField.h"
 #include"Fade.h"
-
-using namespace KamataEngine;
 class Tutorial 
 {
 public:
@@ -31,7 +29,7 @@ public:
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 	// スプライト
-  Sprite* tutorialSprite_ = nullptr;
+	KamataEngine::Sprite* tutorialSprite_ = nullptr;
 
 	// マップチップフィールド
 	MapChipField* mapChipField_;

@@ -1,13 +1,14 @@
 #pragma once
-#include"KamataEngine.h"
-#include "MapChipField.h"
-#include"Fade.h"
+#include "KamataEngine.h"
 
-using namespace KamataEngine;
-class Tutorial 
+#include "Fade.h"
+
+#include "Player.h"
+
+class TitleScene 
 {
 public:
-	enum class Phase 
+	enum class Phase
 	{
 		kFadeIn,  // フェードイン
 		kMain,    // メイン部
@@ -16,22 +17,27 @@ public:
 
 	// 終了フラグ
 	bool finished_ = false;
-	// デスフラグのgetter
 	bool IsFinished() const { return finished_; }
+
+	bool finished2_ = false;
+	bool IsFinished2() const { return finished2_; }
 
 	void Initialize();
 	void Update();
 	void Draw();
 
 	// デストラクタ
-	~Tutorial();
+	~TitleScene();
 	// void ChangeScene();
 	std::vector<std::vector<KamataEngine::WorldTransform*>> worldTransformBlocks_; // stdでエラーが起きたらKamataEngine::をいれる
 
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 	// スプライト
-  Sprite* tutorialSprite_ = nullptr;
+	KamataEngine::Sprite* titleSprite_ = nullptr;
+
+	// 自キャラ
+	Player* player_ = nullptr;
 
 	// マップチップフィールド
 	MapChipField* mapChipField_;
@@ -40,7 +46,7 @@ private:
 	// 3Dモデルデータ
 	KamataEngine::Model* model_ = nullptr;
 	// モデルプレイヤー
-	// KamataEngine::Model* modelPlayer_ = nullptr;
+	KamataEngine::Model* modelPlayer_ = nullptr;
 	// カメラ
 	KamataEngine::Camera camera_;
 	// ワールドトランスフォーム

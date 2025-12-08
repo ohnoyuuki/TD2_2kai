@@ -1,13 +1,11 @@
-#pragma once
+﻿#pragma once
 #include"KamataEngine.h"
 #include "MapChipField.h"
 #include"Fade.h"
-
-using namespace KamataEngine;
-class Tutorial 
+class GameOver
 {
 public:
-	enum class Phase 
+	enum class Phase
 	{
 		kFadeIn,  // フェードイン
 		kMain,    // メイン部
@@ -24,14 +22,14 @@ public:
 	void Draw();
 
 	// デストラクタ
-	~Tutorial();
+	~GameOver();
 	// void ChangeScene();
 	std::vector<std::vector<KamataEngine::WorldTransform*>> worldTransformBlocks_; // stdでエラーが起きたらKamataEngine::をいれる
 
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 	// スプライト
-  Sprite* tutorialSprite_ = nullptr;
+	KamataEngine::Sprite* overSprite_ = nullptr;
 
 	// マップチップフィールド
 	MapChipField* mapChipField_;

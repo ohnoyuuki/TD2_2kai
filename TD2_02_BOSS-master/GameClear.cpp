@@ -1,20 +1,17 @@
-#include "Tutorial.h"
+﻿#include "GameClear.h"
+
 #include "MapChipField.h"
 
 using namespace KamataEngine;
 
-void Tutorial::Initialize() 
+void GameClear::Initialize()
 {
-	//チュートリアルのスプライト
-	textureHandle_ = TextureManager::Load("explanation.png");
-	tutorialSprite_ = Sprite::Create(textureHandle_, {0, 0});
-	
-	
-	
+	textureHandle_ = TextureManager::Load("CLEAR.png");
+	clearSprite_ = Sprite::Create(textureHandle_, {0, 0});
+
 	// 3Dモデルの生成
 	// model_ = Model::CreateFromOBJ("titleFont");
 	// modelPlayer_ = Model::CreateFromOBJ("player");
-	
 	// カメラの初期化
 	camera_.Initialize();
 	// ワールド変換の初期化
@@ -27,9 +24,9 @@ void Tutorial::Initialize()
 	fade_->Start(Fade::Status::FadeIn, 1.0f);
 }
 
-void Tutorial::Update()
+void GameClear::Update() 
 {
-	switch (phase_) 
+	switch (phase_)
 	{
 	case Phase::kMain:
 
@@ -39,7 +36,7 @@ void Tutorial::Update()
 			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
-			//finished_ = true;
+			finished_ = true;
 		}
 
 		break;
@@ -62,7 +59,7 @@ void Tutorial::Update()
 	}
 }
 
-void Tutorial::Draw()
+void GameClear::Draw()
 {
 	// DirectXCommonインスタンスの取得
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
@@ -77,23 +74,21 @@ void Tutorial::Draw()
 	// 3Dモデル描画後処理
 	Model::PostDraw();
 
-
 	Sprite::PreDraw(dxCommon->GetCommandList());
 
-	tutorialSprite_->Draw();
-
+	clearSprite_->Draw();
 
 	Sprite::PostDraw();
-
 
 	// フェード
 	fade_->Draw();
 }
 
-Tutorial::~Tutorial()
+GameClear::~GameClear() 
 {
+	// モデル
+	// delete model_;
+	//  フェード
 	delete fade_;
-	//delete tutorialSprite_;
-
-	
+	delete clearSprite_;
 }
