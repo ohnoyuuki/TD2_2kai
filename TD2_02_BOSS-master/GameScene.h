@@ -180,5 +180,5 @@ private:
 	int voiceGameHandle_ = 0;
 
 	// 効果音ハンドル
-	uint32_t soundBotanHandle_ = 0;
+	uint32_t soundTamaHandle_ = 0;
 };

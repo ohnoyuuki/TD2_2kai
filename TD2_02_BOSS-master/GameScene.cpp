@@ -123,12 +123,13 @@ void GameScene::Initialize() {
 	fade_->Initialize();
 	fade_->Start(Fade::Status::FadeIn, 1.0f);
 
-	// サウンドデータの読み込みk
+	// 効果音データの読み込み
+	soundTamaHandle_ = Audio::GetInstance()->LoadWave("BossTama.mp3");
 
+	// サウンドデータの読み込み
 	soundGameHandle_ = Audio::GetInstance()->LoadWave("BossPlay.mp3");
 
-	// 効果音データの読み込み
-	soundBotanHandle_ = Audio::GetInstance()->LoadWave("BossBotan.mp3");
+	
 
 	// --- 再生ハンドルは全部初期化しておく ---
 
@@ -414,6 +415,8 @@ void GameScene::Draw() {
 	// スペースキーを押して弾を撃つ
 	if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
 		playerBulletLifeTime--;
+		// 音声再生
+		Audio::GetInstance()->PlayWave(soundTamaHandle_);
 	}
 
 	// 弾の継続時間が0になるまで撃てる
