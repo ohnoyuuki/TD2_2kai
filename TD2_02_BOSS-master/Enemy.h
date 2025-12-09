@@ -1,80 +1,54 @@
 #pragma once
-#include"KamataEngine.h"
-#include"MyMath.h"
-#include"EnemyBullet.h"
-#include<list>
-
+#include "EnemyBullet.h"
+#include "KamataEngine.h"
+#include "MyMath.h"
+#include <list>
 
 class Player;
 class PlayerBullet;
-class Enemy
-{
+class Enemy {
 public:
-
-
-	// デスフラグ
-	bool isenemyDead_ = false;
 	// デスフラグのgetter
-	bool IsEnemyDead() const { return isenemyDead_; }
+	// bool IsEnemyDead() const { return isenemyDead_; }
 
-	
 	// 敵の当たり判定サイズ
 	static inline const float kWidth = 10.0f;
-	static inline const float kHeight =10.0f;
-
-	
-
-	
+	static inline const float kHeight = 10.0f;
 
 	// 歩行の速さ
 	static inline const float kWalkSpeed = 0.04f;
 
 	// 最初の角度[度]
 	static inline const float kWalkMotionAngleStart = 5.0f;
-	
+
 	// 最後の角度[度]
 	static inline const float kWalkMotionAngleEnd = 5.0f;
-	
+
 	// アニメーションの周期となる時間[秒]
 	static inline const float kWalkMotionTime = 5.0f;
 
 	// 経過時間
 	float walkTimer_ = 0.0f;
 
-
-
-
-
-
 	// ワールド座標を取得
 	KamataEngine::Vector3 GetWorldPosition();
 	// AABBを取得
 	AABB GetAABB();
-	//衝突応答
+	// 衝突応答
 	void OnCollition(const Player* player);
 
-
-
-
-
-	#pragma region 自キャラの弾と敵
+#pragma region 自キャラの弾と敵
 	// AABBを取得
 	AABB2 GetAABB2();
 	// 衝突応答
 	void OnCollition2(const PlayerBullet* playerBullet);
-	#pragma endregion
+#pragma endregion
 
-
-
-	//体力表示
+	// 体力表示
 	int enemyHp;
-
-
 
 	// 初期化
 	void Initialize(KamataEngine::Model* model, KamataEngine::Camera* camera, KamataEngine::Vector3& position);
-
-	
 
 	// 更新
 	void Update();
@@ -82,18 +56,15 @@ public:
 	// 描画
 	void Draw();
 
-	
-
-	
+	int GetHP() const { return hp_; }
+	int GetMaxHP() const { return maxHP_; }
+	bool IsEnemyDead() const { return isenemyDead_; }
 
 private:
-
-
 	///////////////
 	// 敵左右移動//
 	//////////////
-	enum class EnemyState
-	{
+	enum class EnemyState {
 		IdleMove, // 上下に揺れる状態
 		MoveLeft, // 左へ移動
 		MoveRight // 右へ戻る
@@ -110,8 +81,6 @@ private:
 	// 敵左右移動終///
 	/////////////////
 
-
-
 	// ワールド変換データ
 	KamataEngine::WorldTransform worldTransform_;
 	// モデル
@@ -123,5 +92,10 @@ private:
 
 	KamataEngine::Vector3 velocity_ = {};
 
+	int maxHP_ = 500;
+	int hp_ = maxHP_;
 
+
+	// デスフラグ
+	bool isenemyDead_ = false;
 };

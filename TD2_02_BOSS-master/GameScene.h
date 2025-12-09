@@ -1,29 +1,29 @@
 #pragma once
 #include "KamataEngine.h"
-//#include "MapChipField.h"
-#include "Player.h"
-#include "Enemy.h"
-#include "Skydome.h"
+// #include "MapChipField.h"
+#include "Barrier.h"
 #include "CameraController.h"
 #include "DeathParticle.h"
-#include "PlayerBullet.h"
+#include "Enemy.h"
 #include "EnemyBullet.h"
-#include "Barrier.h"
 #include "Fade.h"
-#include <vector>
+#include "Player.h"
+#include "PlayerBullet.h"
+#include "Skydome.h"
+#include <algorithm>
 #include <list>
-
+#include <vector>
+#define NOMINMAX
+#include <Windows.h>
 
 using namespace KamataEngine;
 
 // ゲームシーン
-class GameScene
-{
+class GameScene {
 public:
-
 	// デストラクタ
 	~GameScene();
-	
+
 	// 初期化
 	void Initialize();
 
@@ -33,31 +33,22 @@ public:
 	// 描画
 	void Draw();
 
-
 	// 終了フラグ
 	bool finishedGAME_ = false;
 	// デスフラグのgetter
-	bool IsFinishedGAME() const { return finishedGAME_; }//ゲームオーバー
-	
-	
+	bool IsFinishedGAME() const { return finishedGAME_; } // ゲームオーバー
+
 	// 敵を倒した場合のフラグ
 	bool finishedGAME2_ = false;
-	bool IsFinishedGAME2() const { return finishedGAME2_; }//ゲームクリア
-
-
+	bool IsFinishedGAME2() const { return finishedGAME2_; } // ゲームクリア
 
 private:
-
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 	// 3Dモデルデータ
 	KamataEngine::Model* model_ = nullptr;
 
-
-
 	std::vector<std::vector<KamataEngine::WorldTransform*>> worldTransformBlocks_; // stdでエラーが起きたらKamataEngine::をいれる
-
-	
 
 	// デバックカメラ有効
 	bool isDebugCameraActive_ = false;
@@ -68,7 +59,6 @@ private:
 	// デバックカメラの生成
 	// debugCamera_ = new DebugCamera();
 
-
 	// ワールドトランスフォーム
 	KamataEngine::WorldTransform worldTransform_;
 
@@ -78,20 +68,14 @@ private:
 	// スプライト
 	KamataEngine::Sprite* sprite_ = nullptr;
 
-	
-
-	
-
 	// 3D
-	//KamataEngine::Model* cube_ = nullptr;
-
-
+	// KamataEngine::Model* cube_ = nullptr;
 
 	// 自キャラ
 	Player* player_ = nullptr;
 	// モデルプレイヤー
 	KamataEngine::Model* modelPlayer_ = nullptr;
-	
+
 	// プレイヤーHPテクスチャハンドル
 	uint32_t playerhpHandle_ = 0;
 	// スプライト
@@ -100,31 +84,25 @@ private:
 	// 敵
 	Enemy* enemy_ = nullptr;
 	KamataEngine::Model* modelEnemy_ = nullptr;
-	
+
 	// プレイヤーHPテクスチャハンドル
 	uint32_t enemyhpHandle_ = 0;
 	// スプライト
 	Sprite* enemyhpSprite_ = nullptr;
 
-
-
-	#pragma region 自キャラの弾
-	//自キャラの弾
+#pragma region 自キャラの弾
+	// 自キャラの弾
 	KamataEngine::Model* modelPlayerBullet_ = nullptr;
 	// 弾
 	std::list<PlayerBullet*> bullets_;
 	// 速度
 	KamataEngine::Vector3 velocity_;
-    // 弾の寿命(フレーム数)
-    int playerBulletLifeTime = 20; // 変更可能な左辺値にするためconstを外し型をintに変更    // スペースキーを押して弾を撃つ
-    
-	#pragma endregion 
+	// 弾の寿命(フレーム数)
+	int playerBulletLifeTime = 20; // 変更可能な左辺値にするためconstを外し型をintに変更    // スペースキーを押して弾を撃つ
 
+#pragma endregion
 
-
-
-
-	#pragma region 敵の弾
+#pragma region 敵の弾
 	// 敵の弾
 	KamataEngine::Model* modelEnemyBullet_ = nullptr;
 
@@ -134,40 +112,30 @@ private:
 	KamataEngine::Vector3 EnemyBulletVelocity_;
 	// 弾の寿命(フレーム数)
 	int enemyBulletLifeTime = 20; // 変更可能な左辺値にするためconstを外し型をintに変更    // スペースキーを押して弾を撃つ
-	
 
-	
-    #pragma endregion 
+#pragma endregion
 
-
-
-	//バリア
+	// バリア
 	Barrier* barrier_ = nullptr;
 	KamataEngine::Model* modelBarrier_ = nullptr;
 
-
-	
 	// 天球
 	Skydome* skydome_ = nullptr;
 	KamataEngine::Model* modelskydome_ = nullptr;
-	
-
-
 
 	// マップチップフィールド
 	MapChipField* mapChipField_;
-	
+
 	// 表示ブロックの生成
-	//void GenerateBlocks();
-	
+	// void GenerateBlocks();
+
 	// カメラコントロール
 	CameraController* cameraController_ = nullptr;
 	// void Initialize();
 	// KamataEngine::Model* cameraModel_;
-	
-	
-	//std::list<Enemy*> enemies_;
-	
+
+	// std::list<Enemy*> enemies_;
+
 	// 全ての当たり判定
 	void CheckAllCollisions();
 
@@ -176,43 +144,30 @@ private:
 
 	// モデルパーティクル
 	DeathParticle* deathParticles_ = nullptr;
-	
-	
-
 
 	// 自キャラの弾
 	PlayerBullet* playerBullet_ = nullptr;
 	void PlayerAttack();
-	
+
 	// 敵の弾
 	EnemyBullet* enemyBullet_ = nullptr;
 	void EnemyAttack();
 
-
-
-
-
 	// ゲームのフェーズ(型)
-	enum class Phase
-	{
+	enum class Phase {
 		kFadeIn, // フェードイン
 		kPlay,   // ゲームプレイ
 		kDeath,  // デス演出
 		kEnemyDeath,
-		kFadeOut,// フェードアウト
+		kFadeOut, // フェードアウト
 	};
 
 	// ゲームの現在フェーズから開始
 	Phase phase_;
-	
+
 	// フェーズの切り替え
 	void ChangePhase();
-	
-	
-
 
 	// フェード
 	Fade* fade_ = nullptr;
-
-	
 };

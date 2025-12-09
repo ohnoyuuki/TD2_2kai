@@ -160,6 +160,7 @@ void Enemy::Draw()
 
 
 
+
 KamataEngine::Vector3 Enemy::GetWorldPosition()
 {
 	// ワールド座標を入れる変数
@@ -205,14 +206,25 @@ AABB2 Enemy::GetAABB2()
 	return aabb;
 }
 
+
+
+//int Enemy::GetHP() const { return 0; }
+//
+//int Enemy::GetMaxHP() const { return 0; }
+//
+//bool Enemy::IsEnemyDead() const { return isenemyDead_; }
+
+
 // 衝突応答
-void Enemy::OnCollition2(const PlayerBullet* playerBullet)
-{
+void Enemy::OnCollition2(const PlayerBullet* playerBullet) {
 	(void)playerBullet;
-	enemyHp -= 10;
+	enemyHp -= 1;
+	hp_ -= 1;
+	if (hp_ <= 0) {
+		hp_ = 0;
+		isenemyDead_ = true;
+	}
 }
-
-
 #pragma endregion
 
 
