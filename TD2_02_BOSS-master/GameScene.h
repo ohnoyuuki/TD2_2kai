@@ -12,11 +12,11 @@
 #include "Fade.h"
 #include <vector>
 #include <list>
+
+
+using namespace KamataEngine;
+
 // ゲームシーン
-
-
-
-
 class GameScene
 {
 public:
@@ -92,13 +92,19 @@ private:
 	// モデルプレイヤー
 	KamataEngine::Model* modelPlayer_ = nullptr;
 	
-
+	// プレイヤーHPテクスチャハンドル
+	uint32_t playerhpHandle_ = 0;
+	// スプライト
+	Sprite* playerhpSprite_ = nullptr;
 
 	// 敵
 	Enemy* enemy_ = nullptr;
 	KamataEngine::Model* modelEnemy_ = nullptr;
 	
-
+	// プレイヤーHPテクスチャハンドル
+	uint32_t enemyhpHandle_ = 0;
+	// スプライト
+	Sprite* enemyhpSprite_ = nullptr;
 
 
 
