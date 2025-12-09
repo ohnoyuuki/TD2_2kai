@@ -1,4 +1,4 @@
-﻿#include "GameOver.h"
+#include "GameOver.h"
 
 #include "MapChipField.h"
 
@@ -23,6 +23,25 @@ void GameOver::Initialize()
 	fade_ = new Fade();
 	fade_->Initialize();
 	fade_->Start(Fade::Status::FadeIn, 1.0f);
+
+	// サウンドデータの読み込み
+	//soundTitleHandle_ = Audio::GetInstance()->LoadWave("BossTitle.mp3");
+	//soundGameHandle_ = Audio::GetInstance()->LoadWave("BossPlay.mp3");
+	//soundClearHandle_ = Audio::GetInstance()->LoadWave("BossClear.mp3");
+	soundOverHandle_ = Audio::GetInstance()->LoadWave("BossOver.mp3");
+
+	// 効果音データの読み込み
+	soundBotanHandle_ = Audio::GetInstance()->LoadWave("BossBotan.mp3");
+
+	// --- 再生ハンドルは全部初期化しておく ---
+	//voiceTitleHandle_ = -1;
+	//voiceGameHandle_ = -1;
+	//voiceClearHandle_ = -1;
+	voiceOverHandle_ = -1;
+
+	// タイトルBGMをループで流す
+	voiceOverHandle_ = Audio::GetInstance()->PlayWave(soundOverHandle_, true);
+
 }
 
 void GameOver::Update()
@@ -34,6 +53,8 @@ void GameOver::Update()
 		// タイトルシーンの終了条件
 		if (Input::GetInstance()->PushKey(DIK_E))
 		{
+			// 音声停止
+			Audio::GetInstance()->StopWave(soundOverHandle_);
 			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);

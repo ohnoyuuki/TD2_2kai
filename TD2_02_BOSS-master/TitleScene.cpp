@@ -25,9 +25,7 @@ void TitleScene::Initialize()
 
 	// サウンドデータの読み込み
 	soundTitleHandle_ = Audio::GetInstance()->LoadWave("BossTitle.mp3");
-	soundGameHandle_ = Audio::GetInstance()->LoadWave("BossPlay.mp3");
-	soundClearHandle_ = Audio::GetInstance()->LoadWave("BossClear.mp3");
-	soundOverHandle_ = Audio::GetInstance()->LoadWave("BossOver.mp3");
+	
 
 	// 効果音データの読み込み
 	soundBotanHandle_ = Audio::GetInstance()->LoadWave("BossBotan.mp3");
@@ -35,9 +33,7 @@ void TitleScene::Initialize()
 
 	// --- 再生ハンドルは全部初期化しておく ---
 	voiceTitleHandle_ = -1;
-	voiceGameHandle_ = -1;
-	voiceClearHandle_ = -1;
-	voiceOverHandle_ = -1;
+	
 
 	// タイトルBGMをループで流す
 	voiceTitleHandle_ = Audio::GetInstance()->PlayWave(soundTitleHandle_, true);

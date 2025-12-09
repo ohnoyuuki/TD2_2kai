@@ -50,8 +50,6 @@ void GameScene::Initialize() {
 	enemyhpHandle_ = TextureManager::Load("ehp.png");
 	enemyhpSprite_ = KamataEngine::Sprite::Create(enemyhpHandle_, {1050, 0});
 
-	
-
 	// 敵の弾
 	modelEnemyBullet_ = Model::CreateFromOBJ("Etama", true);
 
@@ -124,6 +122,20 @@ void GameScene::Initialize() {
 	fade_ = new Fade();
 	fade_->Initialize();
 	fade_->Start(Fade::Status::FadeIn, 1.0f);
+
+	// サウンドデータの読み込みk
+
+	soundGameHandle_ = Audio::GetInstance()->LoadWave("BossPlay.mp3");
+
+	// 効果音データの読み込み
+	soundBotanHandle_ = Audio::GetInstance()->LoadWave("BossBotan.mp3");
+
+	// --- 再生ハンドルは全部初期化しておく ---
+
+	voiceGameHandle_ = -1;
+
+	// タイトルBGMをループで流す
+	voiceGameHandle_ = Audio::GetInstance()->PlayWave(soundGameHandle_, true);
 }
 
 // ブロック
@@ -205,29 +217,27 @@ void GameScene::Update() {
 	float hpRatio = (float)player_->GetHP() / (float)player_->GetMaxHP();
 	hpRatio = std::clamp(hpRatio, 0.0f, 1.0f);
 	playerhpSprite_->SetSize({hpRatio * 200.0f, 20.0f}); // 例：幅200px、高さ20px
-	playerhpSprite_->SetPosition({0, 0});              // 左上に表示
+	playerhpSprite_->SetPosition({0, 0});                // 左上に表示
 
 	// 敵HP
 	float enemyHpRatio = (float)enemy_->GetHP() / (float)enemy_->GetMaxHP();
 	enemyHpRatio = std::clamp(enemyHpRatio, 0.0f, 1.0f);
 	enemyhpSprite_->SetSize({enemyHpRatio * 200.0f, 20.0f}); // 幅200px、高さ20px
-	enemyhpSprite_->SetPosition({1060, 10});                   // 左上少し下に表示
+	enemyhpSprite_->SetPosition({1060, 10});                 // 左上少し下に表示
 
 	switch (phase_) {
 	case Phase::kPlay:
 
-		
-
-		
-
-
 		// 全ての当たり判定
 		CheckAllCollisions();
 
-		// ゲームプレイフェーズの処理
+		// ゲームプレイフェーズの処理（プレイヤーが死んだら）
 		if (player_->IsDead() == true) {
 			// デス演出フェーズに切り替え
 			phase_ = Phase::kDeath;
+
+			// 音声停止
+			Audio::GetInstance()->StopWave(voiceGameHandle_);
 
 			// 自キャラの座標を取得
 			const KamataEngine::Vector3 deathParticlesPosition = player_->GetWorldPosition();
@@ -238,12 +248,11 @@ void GameScene::Update() {
 		}
 
 		if (enemy_->IsEnemyDead() == true) {
+			// 音声停止
+			Audio::GetInstance()->StopWave(voiceGameHandle_);
 			// デス演出フェーズに切り替え
 			phase_ = Phase::kEnemyDeath;
 		}
-
-
-
 
 		break;
 
@@ -476,7 +485,6 @@ void GameScene::Draw() {
 	// 2Dモデル描画前処理
 	Sprite::PostDraw();
 
-
 	// フェード
 	fade_->Draw();
 }
@@ -601,8 +609,6 @@ void GameScene::ChangePhase() {
 	switch (phase_) {
 	case Phase::kPlay:
 
-		
-
 // ゲームプレイフェーズの処理
 #pragma region プレイヤー
 		if (player_->IsDead() == true) {
@@ -620,6 +626,8 @@ void GameScene::ChangePhase() {
 
 #pragma region 敵
 		if (enemy_->IsEnemyDead() == true) {
+			// 音声停止
+			Audio::GetInstance()->StopWave(voiceGameHandle_);
 			// デス演出フェーズに切り替え
 			phase_ = Phase::kEnemyDeath;
 		}
