@@ -55,15 +55,7 @@ private:
 	// 現在のフェーズ
 	Phase phase_ = Phase::kFadeIn;
 
-	// 音声ファイル
-	//uint32_t soundTitleHandle_ = 0;
-	
 
-	// 音声再生ハンドル
-	//int voiceTitleHandle_ = 0;
-	
 
-	//効果音ハンドル
-	uint32_t soundBotanHandle_ = 0;
-
+	uint32_t Botan_ = 0;
 };

@@ -56,3 +56,11 @@ bool IsCollition3(const AABB3& aabb5, const AABB3& aabb6)
 	       (aabb5.min.y <= aabb6.max.y && aabb5.max.y >= aabb6.min.y) && // y軸
 	       (aabb5.min.z <= aabb6.max.z && aabb5.max.z >= aabb6.min.z);   // z軸
 }
+
+// 敵の弾とバリアの弾の当たり判定
+bool IsCollition4(const AABB4& aabb7, const AABB4& aabb8)
+{
+	return (aabb7.min.x <= aabb8.max.x && aabb7.max.x >= aabb8.min.x) && // x軸
+	       (aabb7.min.y <= aabb8.max.y && aabb7.max.y >= aabb8.min.y) && // y軸
+	       (aabb7.min.z <= aabb8.max.z && aabb7.max.z >= aabb8.min.z);   // z軸
+}

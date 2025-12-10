@@ -1,11 +1,12 @@
 #pragma once
 #include "KamataEngine.h"
-#include "MyMath.h"
-#include "PlayerBullet.h"
-#include <list>
+#include"MyMath.h"
+#include"PlayerBullet.h"
+#include<list>
 
 class Enemy;
-class Player {
+class Player
+{
 public:
 	// デスフラグ
 	bool isDead_ = false;
@@ -15,9 +16,10 @@ public:
 	// キャラクターの当たり判定サイズ
 	static inline const float kWidth = 0.8f;
 	static inline const float kHeight = 0.8f;
-
+	
 	// 角
-	enum Corner {
+	enum Corner
+	{
 		kRightBottom, // 右下
 		kLeftBottom,  // 左下
 		kRightTop,    // 右上
@@ -50,7 +52,8 @@ public:
 	static inline const float kAttenuationWall = 0.9f;
 
 	// 左右
-	enum class LRDirection {
+	enum class LRDirection 
+	{
 		kRight,
 		kLeft,
 	};
@@ -72,14 +75,26 @@ public:
 
 	// ワールド座標を取得
 	KamataEngine::Vector3 GetWorldPosition();
-
+	
+	
+	
+	
+	
+	
 	// AABBを取得
 	AABB GetAABB();
 	// 衝突応答
 	void OnCollition(const Enemy* enemy);
 
+
+
+
+
+
 	// 初期化
 	void Initialize(KamataEngine::Model* model, KamataEngine::Camera* camera, KamataEngine::Vector3& position);
+
+	
 
 	// 更新
 	void Update();
@@ -87,17 +102,19 @@ public:
 	// 描画
 	void Draw();
 
-	~Player();
-
+    
 	static inline const float kBlank = 0.9f;
 
 	void AnimateTurn();
 
-	// 弾
+	//弾
 	std::list<PlayerBullet*> bullets_;
 
-	// 攻撃
+	//攻撃
 	void Attack();
+
+	~Player();
+
 
 	// Getter / 状態確認
 	int GetHP() const { return hp_; }
@@ -105,8 +122,7 @@ public:
 	bool IsDead() const { return isDead_; }
 
 
-	/*int GetHP() const { return hp_; }
-	int GetMaxHP() const { return maxHp_; }*/
+
 
 private:
 	// ワールド変換データ
@@ -124,6 +140,5 @@ private:
 
 	 int maxHP_ = 10;
 	int hp_ = maxHP_;
-	//bool isDead_ = false;
 
 };

@@ -1,8 +1,10 @@
 ﻿#pragma once
 #include "KamataEngine.h"
 #include "MyMath.h"
-#include"PlayerBullet.h"
+#include "PlayerBullet.h"
+#include "Barrier.h"
 
+class Barrier;
 class PlayerBullet;
 class EnemyBullet 
 {
@@ -24,7 +26,7 @@ public:
 	// 速度
 	KamataEngine::Vector3 velocity_;
 
-
+	//int E_Shot = false;
 
 	// 当たり判定サイズ
 	static inline const float kWidth = 0.8f;
@@ -43,7 +45,14 @@ public:
 
 	#pragma endregion
 
+	#pragma region バリアと敵の弾の衝突
 
+	// AABBを取得
+	AABB4 GetAABB4();
+	// 衝突応答
+	void OnCollition4(const Barrier* barrier);
+
+	#pragma endregion
 
 
 private:
@@ -58,4 +67,6 @@ private:
 
 	// 速度
 	KamataEngine::Vector3 Bulletvelocity_;
+
+
 };

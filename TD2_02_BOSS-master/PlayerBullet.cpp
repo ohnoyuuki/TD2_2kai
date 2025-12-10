@@ -16,7 +16,7 @@ using namespace MathUtility;
 
 void PlayerBullet::Initialize(KamataEngine::Model* model, Camera* camera, const KamataEngine::Vector3& position, const KamataEngine::Vector3& velocity) { 
 	// NULLポイントチェック
-	assert(model);
+	//assert(model);
 	
 	model_ = model;
 	

@@ -28,3 +28,9 @@ struct AABB3
 };
 bool IsCollition3(const AABB3& aabb5, const AABB3& aabb6);
 
+struct AABB4 
+{
+	KamataEngine::Vector3 min;
+	KamataEngine::Vector3 max;
+};
+bool IsCollition4(const AABB4& aabb7, const AABB4& aabb8);

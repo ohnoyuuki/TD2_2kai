@@ -13,7 +13,7 @@ using namespace MathUtility;
 void EnemyBullet::Initialize(KamataEngine::Model* model, Camera* camera, const KamataEngine::Vector3& position, const KamataEngine::Vector3& velocity)
 {
 	// NULLポイントチェック
-	assert(model);
+	//assert(model);
 
 	model_ = model;
 
@@ -29,13 +29,18 @@ void EnemyBullet::Initialize(KamataEngine::Model* model, Camera* camera, const K
 	worldTransform_.Initialize();
 
 	// Bulletvelocity_ = velocity;
+
+
 }
 
 void EnemyBullet::Update() 
 {
+	
 	// 弾を移動
 	worldTransform_.translation_ -= velocity_;
 
+
+	
 	// アフィン変換行列
 	worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 	worldTransform_.TransferMatrix(); // 敵の座標の計算
@@ -43,10 +48,11 @@ void EnemyBullet::Update()
 
 void EnemyBullet::Draw() 
 {
-
+	
 	// モデルの描画
 	model_->Draw(worldTransform_, *camera_);
-
+	
+	
 	// 終了なら何もしない
 	if (isFinished_)
 	{
@@ -88,6 +94,28 @@ void EnemyBullet::OnCollition3(const PlayerBullet* playerBullet)
 {
 	(void)playerBullet; 
 
+}
+
+#pragma endregion
+
+#pragma region バリアと敵の弾の衝突
+
+AABB4 EnemyBullet::GetAABB4()
+{
+	KamataEngine::Vector3 worldPos = GetWorldPosition();
+
+	AABB4 aabb;
+
+	aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeight / 2.0f, worldPos.z - kWidth / 2.0f};
+	aabb.max = {worldPos.x + kWidth / 2.0f, worldPos.y + kHeight / 2.0f, worldPos.z + kWidth / 2.0f};
+
+	return aabb;
+}
+
+// プレイヤーの弾と敵の弾の衝突
+void EnemyBullet::OnCollition4(const Barrier* barrier) 
+{
+	(void)barrier;
 }
 
 #pragma endregion

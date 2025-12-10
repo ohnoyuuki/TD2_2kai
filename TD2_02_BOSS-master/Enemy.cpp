@@ -7,6 +7,8 @@
 #define NOMINMAX
 #include "MapChipField.h"
 
+#include "EnemyBullet.h"
+
 using namespace KamataEngine;
 using namespace MathUtility;
 
@@ -31,7 +33,7 @@ void Enemy::Initialize(Model* model, Camera* camera, KamataEngine::Vector3& posi
 	velocity_ = {-kWalkSpeed, 0, 0};
 
 	walkTimer_ = 0.0f;
-	enemyHp = 1000;
+	enemyHp = 10000;
 
 	worldTransform_.rotation_.y = std::numbers::pi_v<float> / -2.0f;
 
@@ -160,7 +162,6 @@ void Enemy::Draw()
 
 
 
-
 KamataEngine::Vector3 Enemy::GetWorldPosition()
 {
 	// ワールド座標を入れる変数
@@ -206,25 +207,20 @@ AABB2 Enemy::GetAABB2()
 	return aabb;
 }
 
-
-
-//int Enemy::GetHP() const { return 0; }
-//
-//int Enemy::GetMaxHP() const { return 0; }
-//
-//bool Enemy::IsEnemyDead() const { return isenemyDead_; }
-
-
 // 衝突応答
-void Enemy::OnCollition2(const PlayerBullet* playerBullet) {
+void Enemy::OnCollition2(const PlayerBullet* playerBullet)
+{
 	(void)playerBullet;
-	enemyHp -= 1;
-	hp_ -= 1;
-	if (hp_ <= 0) {
+	enemyHp -= 10;
+	hp_ -= 10;
+	if (hp_ <= 0)
+	{
 		hp_ = 0;
 		isenemyDead_ = true;
 	}
 }
+
+
 #pragma endregion
 
 

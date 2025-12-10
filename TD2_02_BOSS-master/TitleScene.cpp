@@ -11,6 +11,11 @@ void TitleScene::Initialize()
 	titleSprite_ = KamataEngine::Sprite::Create(textureHandle_, {0, 0});
 
 
+
+	Botan_ = Audio::GetInstance()->LoadWave("Sounds/BossBotan.mp3");
+
+
+
 	
 	// カメラの初期化
 	camera_.Initialize();
@@ -22,22 +27,6 @@ void TitleScene::Initialize()
 	fade_ = new Fade();
 	fade_->Initialize();
 	fade_->Start(Fade::Status::FadeIn, 1.0f);
-
-	// サウンドデータの読み込み
-	//soundTitleHandle_ = Audio::GetInstance()->LoadWave("BossTitle.mp3");
-	//
-
-	//// 効果音データの読み込み
-	soundBotanHandle_ = Audio::GetInstance()->LoadWave("BossBotan.mp3");
-
-
-	// --- 再生ハンドルは全部初期化しておく ---
-	//voiceTitleHandle_ = -1;
-	
-
-	//// タイトルBGMをループで流す
-	
-
 }
 
 void TitleScene::Update() 
@@ -48,21 +37,18 @@ void TitleScene::Update()
 	case Phase::kMain:
 
 		// タイトルシーンの終了条件
-		if (Input::GetInstance()->PushKey(DIK_SPACE))
+		if (Input::GetInstance()->TriggerKey(DIK_SPACE))
 		{
-			
-			// 音声再生
-			Audio::GetInstance()->PlayWave(soundBotanHandle_);
+
+			Audio::GetInstance()->PlayWave(Botan_);
 			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
 			finishedTitle_ = true;
 		}
-		if (Input::GetInstance()->PushKey(DIK_T)) 
+		if (Input::GetInstance()->TriggerKey(DIK_T)) 
 		{
-			
-			// 音声再生
-			Audio::GetInstance()->PlayWave(soundBotanHandle_);
+			Audio::GetInstance()->PlayWave(Botan_);
 			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);

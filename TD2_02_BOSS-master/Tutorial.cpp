@@ -1,4 +1,4 @@
-#include "Tutorial.h"
+﻿#include "Tutorial.h"
 #include "MapChipField.h"
 
 using namespace KamataEngine;
@@ -10,6 +10,9 @@ void Tutorial::Initialize()
 	tutorialSprite_ = KamataEngine::Sprite::Create(textureHandle_, {0, 0});
 	
 	
+	Botan_ = Audio::GetInstance()->LoadWave("Sounds/BossBotan.mp3");
+
+
 	// カメラの初期化
 	camera_.Initialize();
 	// ワールド変換の初期化
@@ -20,16 +23,6 @@ void Tutorial::Initialize()
 	fade_ = new Fade();
 	fade_->Initialize();
 	fade_->Start(Fade::Status::FadeIn, 1.0f);
-
-	
-
-	// 効果音データの読み込み
-	soundBotanHandle_ = Audio::GetInstance()->LoadWave("BossBotan.mp3");
-
-	
-
-	
-
 }
 
 void Tutorial::Update()
@@ -37,13 +30,11 @@ void Tutorial::Update()
 	switch (phase_) 
 	{
 	case Phase::kMain:
-
+		
 		// タイトルシーンの終了条件
-		if (Input::GetInstance()->PushKey(DIK_E))
+		if (Input::GetInstance()->TriggerKey(DIK_E))
 		{
-			
-			// 音声再生
-			Audio::GetInstance()->PlayWave(soundBotanHandle_);
+			Audio::GetInstance()->PlayWave(Botan_);
 			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);

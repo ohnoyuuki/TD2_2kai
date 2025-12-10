@@ -1,4 +1,4 @@
-#include "GameOver.h"
+﻿#include "GameOver.h"
 
 #include "MapChipField.h"
 
@@ -11,6 +11,7 @@ void GameOver::Initialize()
 	overSprite_ = Sprite::Create(textureHandle_, {0, 0});
 
 
+	Botan_ = Audio::GetInstance()->LoadWave("Sounds/BossBotan.mp3");
 
 	
 	// カメラの初期化
@@ -23,18 +24,6 @@ void GameOver::Initialize()
 	fade_ = new Fade();
 	fade_->Initialize();
 	fade_->Start(Fade::Status::FadeIn, 1.0f);
-
-	// サウンドデータの読み込み
-	//soundOverHandle_ = Audio::GetInstance()->LoadWave("BossOver.mp3");
-
-	//// 効果音データの読み込み
-	//soundBotanHandle_ = Audio::GetInstance()->LoadWave("BossBotan.mp3");
-
-	//// --- 再生ハンドルは全部初期化しておく ---
-	//voiceOverHandle_ = -1;
-
-	
-
 }
 
 void GameOver::Update()
@@ -44,10 +33,9 @@ void GameOver::Update()
 	case Phase::kMain:
 
 		// タイトルシーンの終了条件
-		if (Input::GetInstance()->PushKey(DIK_E))
+		if (Input::GetInstance()->TriggerKey(DIK_E))
 		{
-			// 音声停止
-			Audio::GetInstance()->StopWave(soundOverHandle_);
+			Audio::GetInstance()->PlayWave(Botan_);
 			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);

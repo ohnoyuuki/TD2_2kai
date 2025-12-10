@@ -12,9 +12,6 @@
 using namespace KamataEngine;
 using namespace MathUtility;
 
-//int Player::GetHP() const { return hp_; }
-//int Player::GetMaxHP() const { return maxHp_; }
-//bool Player::IsDead() const { return isDead_; }
 
 
 void Player::Initialize(Model* model, Camera* camera, KamataEngine::Vector3& position)
@@ -173,15 +170,25 @@ void Player::OnCollition(const Enemy* enemy)
 {
 	(void)enemy;
 
+
 	 // ここで受けるダメージ量を決定（例: 1）
 	const int damage = 1;
 
 	hp_ -= damage;
-	if (hp_ <= 0) {
+	if (hp_ <= 0)
+	{
 		hp_ = 0;
 		isDead_ = true;
 		// 必要なら死亡時の処理（アニメ・音・フラグ等）
 	}
+
+
+
+
+
+
+	// デスフラグを立てる
+	//isDead_ = true;
 
 	// ジャンプ開始
 	// velocity_ += KamataEngine::Vector3(0, kJumpAcceleration, 0);
