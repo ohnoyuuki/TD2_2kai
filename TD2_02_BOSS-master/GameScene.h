@@ -173,11 +173,11 @@ private:
 
 	// 音声ファイル
 
-	uint32_t soundGameHandle_ = 0;
+	//uint32_t soundGameHandle_ = 0;
 
 	// 音声再生ハンドル
 
-	int voiceGameHandle_ = 0;
+	//int voiceGameHandle_ = 0;
 
 	// 効果音ハンドル
 	uint32_t soundTamaHandle_ = 0;

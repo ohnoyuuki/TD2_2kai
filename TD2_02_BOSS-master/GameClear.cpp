@@ -21,17 +21,16 @@ void GameClear::Initialize() {
 
 	// サウンドデータの読み込み
 
-	soundClearHandle_ = Audio::GetInstance()->LoadWave("BossClear.mp3");
+	//soundClearHandle_ = Audio::GetInstance()->LoadWave("BossClear.mp3");
 
-	// 効果音データの読み込み
-	soundBotanHandle_ = Audio::GetInstance()->LoadWave("BossBotan.mp3");
+	//// 効果音データの読み込み
+	//soundBotanHandle_ = Audio::GetInstance()->LoadWave("BossBotan.mp3");
 
-	// --- 再生ハンドルは全部初期化しておく ---
+	//// --- 再生ハンドルは全部初期化しておく ---
 
-	voiceClearHandle_ = -1;
+	//voiceClearHandle_ = -1;
 
-	// タイトルBGMをループで流す
-	voiceClearHandle_ = Audio::GetInstance()->PlayWave(soundClearHandle_, true);
+	
 }
 
 void GameClear::Update() {
@@ -39,9 +38,10 @@ void GameClear::Update() {
 	case Phase::kMain:
 
 		// タイトルシーンの終了条件
+		// タイトルシーンの終了条件
 		if (Input::GetInstance()->PushKey(DIK_E)) {
 			// 音声停止
-			Audio::GetInstance()->StopWave(voiceClearHandle_);
+			//Audio::GetInstance()->StopWave(voiceClearHandle_);
 			// 音声再生
 			Audio::GetInstance()->PlayWave(soundBotanHandle_);
 			// フェードアウト開始

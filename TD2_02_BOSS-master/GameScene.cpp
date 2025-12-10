@@ -127,16 +127,15 @@ void GameScene::Initialize() {
 	soundTamaHandle_ = Audio::GetInstance()->LoadWave("BossTama.mp3");
 
 	// サウンドデータの読み込み
-	soundGameHandle_ = Audio::GetInstance()->LoadWave("BossPlay.mp3");
+	//soundGameHandle_ = Audio::GetInstance()->LoadWave("BossPlay.mp3");
 
 	
 
 	// --- 再生ハンドルは全部初期化しておく ---
 
-	voiceGameHandle_ = -1;
+	//voiceGameHandle_ = -1;
 
-	// タイトルBGMをループで流す
-	voiceGameHandle_ = Audio::GetInstance()->PlayWave(soundGameHandle_, true);
+	
 }
 
 // ブロック
@@ -238,7 +237,7 @@ void GameScene::Update() {
 			phase_ = Phase::kDeath;
 
 			// 音声停止
-			Audio::GetInstance()->StopWave(voiceGameHandle_);
+			//Audio::GetInstance()->StopWave(voiceGameHandle_);
 
 			// 自キャラの座標を取得
 			const KamataEngine::Vector3 deathParticlesPosition = player_->GetWorldPosition();
@@ -250,7 +249,7 @@ void GameScene::Update() {
 
 		if (enemy_->IsEnemyDead() == true) {
 			// 音声停止
-			Audio::GetInstance()->StopWave(voiceGameHandle_);
+			//Audio::GetInstance()->StopWave(voiceGameHandle_);
 			// デス演出フェーズに切り替え
 			phase_ = Phase::kEnemyDeath;
 		}
@@ -630,7 +629,7 @@ void GameScene::ChangePhase() {
 #pragma region 敵
 		if (enemy_->IsEnemyDead() == true) {
 			// 音声停止
-			Audio::GetInstance()->StopWave(voiceGameHandle_);
+			//Audio::GetInstance()->StopWave(voiceGameHandle_);
 			// デス演出フェーズに切り替え
 			phase_ = Phase::kEnemyDeath;
 		}

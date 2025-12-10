@@ -24,20 +24,19 @@ void TitleScene::Initialize()
 	fade_->Start(Fade::Status::FadeIn, 1.0f);
 
 	// サウンドデータの読み込み
-	soundTitleHandle_ = Audio::GetInstance()->LoadWave("BossTitle.mp3");
-	
+	//soundTitleHandle_ = Audio::GetInstance()->LoadWave("BossTitle.mp3");
+	//
 
-	// 効果音データの読み込み
+	//// 効果音データの読み込み
 	soundBotanHandle_ = Audio::GetInstance()->LoadWave("BossBotan.mp3");
 
 
 	// --- 再生ハンドルは全部初期化しておく ---
-	voiceTitleHandle_ = -1;
+	//voiceTitleHandle_ = -1;
 	
 
-	// タイトルBGMをループで流す
-	voiceTitleHandle_ = Audio::GetInstance()->PlayWave(soundTitleHandle_, true);
-
+	//// タイトルBGMをループで流す
+	
 
 }
 
@@ -51,8 +50,7 @@ void TitleScene::Update()
 		// タイトルシーンの終了条件
 		if (Input::GetInstance()->PushKey(DIK_SPACE))
 		{
-			// 音声停止
-			Audio::GetInstance()->StopWave(voiceTitleHandle_);
+			
 			// 音声再生
 			Audio::GetInstance()->PlayWave(soundBotanHandle_);
 			// フェードアウト開始
@@ -62,8 +60,7 @@ void TitleScene::Update()
 		}
 		if (Input::GetInstance()->PushKey(DIK_T)) 
 		{
-			// 音声停止
-			Audio::GetInstance()->StopWave(voiceTitleHandle_);
+			
 			// 音声再生
 			Audio::GetInstance()->PlayWave(soundBotanHandle_);
 			// フェードアウト開始
